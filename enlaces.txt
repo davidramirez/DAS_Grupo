@@ -1,0 +1,13 @@
+Descarga de imagen con proyecto de ejemplo:
+http://stackoverflow.com/questions/15549421/how-to-download-and-save-an-image-in-android
+
+Subir archivo al servidor (Parte cliente y parte servidor)
+http://programmerguru.com/android-tutorial/how-to-upload-image-to-php-server/
+
+Documentación para los parámetrod de la petición (mandar ficheros y arrays...)
+com.loopj.android.http.RequestParams
+http://loopj.com/android-async-http/doc/com/loopj/android/http/RequestParams.html
+
+Galería... aunque estaba por los apuntes creo
+http://programmerguru.com/android-tutorial/how-to-pick-image-from-gallery/
+
