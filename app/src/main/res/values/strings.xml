@@ -3,4 +3,10 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="nUsuario">Nombre Usuario</string>
+    <string name="contrasena">Contraseña</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="login">Log In</string>
+    <string name="errorLogin">El usuario o la contraseña son erroneos</string>
 </resources>
