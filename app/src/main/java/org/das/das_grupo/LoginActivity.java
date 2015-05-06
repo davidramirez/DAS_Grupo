@@ -2,7 +2,6 @@ package org.das.das_grupo;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,23 +11,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.das.das_grupo.packGestores.GestorConexiones;
 import org.das.das_grupo.packGestores.GestorUsuarios;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.util.ArrayList;
 
 
 public class LoginActivity extends ActionBarActivity {
@@ -60,7 +49,7 @@ public class LoginActivity extends ActionBarActivity {
                 new AsyncTask<Void, Void, Integer>() {
                     @Override
                     protected Integer doInBackground(Void... params) {
-                        return GestorConexiones.getGestorConexiones().logInUser(nombre,contra);
+                        return GestorConexiones.getGestorConexiones().SingInUser(nombre,contra);
                     }
 
                     @Override
@@ -69,9 +58,13 @@ public class LoginActivity extends ActionBarActivity {
 
                         if(id != 0)
                         {
-                            GestorUsuarios.getGestorUsuarios().guardarContrasenaUsuario(LoginActivity.this,contra);
+                            GestorUsuarios.getGestorUsuarios().guardarContrasenaUsuario(LoginActivity.this, contra);
                             GestorUsuarios.getGestorUsuarios().guardarNombreUsuario(LoginActivity.this, nombre);
-                            GestorUsuarios.getGestorUsuarios().guardarIdUsuario(LoginActivity.this,id.toString());
+                            GestorUsuarios.getGestorUsuarios().guardarIdUsuario(LoginActivity.this, id.toString());
+                            Intent i = new Intent(LoginActivity.this,MainActivity.class);
+                            startActivity(i);
+                            finish();
+
                         }
                         else
                         {
@@ -80,6 +73,14 @@ public class LoginActivity extends ActionBarActivity {
                     }
                 }.execute(null,null,null);
 
+            }
+        });
+
+        btRegistrase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LoginActivity.this, SignInActivity.class);
+                startActivity(i);
             }
         });
 

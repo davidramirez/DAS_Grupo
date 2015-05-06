@@ -11,12 +11,13 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
-    <EditText android:text="@string/nUsuario" android:layout_width="wrap_content"
+    <EditText android:hint="@string/nUsuario" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id = "@+id/usuarioLog"/>
 
-    <EditText android:text="@string/contrasena" android:layout_width="wrap_content"
+    <EditText android:hint="@string/contrasena" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:inputType="textPassword"
         android:id = "@+id/contrasenaLog"/>
 
     <Button

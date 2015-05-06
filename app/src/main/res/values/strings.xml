@@ -9,4 +9,6 @@
     <string name="registrarse">Registrarse</string>
     <string name="login">Log In</string>
     <string name="errorLogin">El usuario o la contraseña son erroneos</string>
+    <string name="title_activity_regist">RegistActivity</string>
+    <string name="cancelar">Cancelar</string>
 </resources>

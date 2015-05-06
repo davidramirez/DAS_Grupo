@@ -75,7 +75,7 @@ public class GestorConexiones {
 
         ArrayList<NameValuePair> parametros = new ArrayList<NameValuePair>();
         parametros.add(new BasicNameValuePair("nombre", nombre));
-        parametros.add(new BasicNameValuePair("contrasena", contrasena));
+        parametros.add(new BasicNameValuePair("contrasena", toSha512(contrasena)));
 
 
 
@@ -176,4 +176,7 @@ public class GestorConexiones {
         return output;
     }
 
+    public Integer SingInUser(String nombre, String contra) {
+        return null;
+    }
 }
