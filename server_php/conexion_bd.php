@@ -1,6 +1,6 @@
 <?php
     $HOST = "localhost";
-    $USUARIO = "";
-    $CONTRASENA = "";
+    $USUARIO = "Xdramirez003";
+    $CONTRASENA = "1LvYidXhAQ";
     $BD = "";
 ?>
