@@ -32,7 +32,7 @@ public class GestorConexiones {
     private static GestorConexiones mGestor = new GestorConexiones();
 
     //URL base para las conexiones al servidor web
-    public final static String WEB_SERVER_URL ="http://galan.ehu.es/dramirez003/das/";
+    public final static String WEB_SERVER_URL ="http://galan.ehu.es/dramirez003/DAS/";
 
     private GestorConexiones()
     {
@@ -61,7 +61,7 @@ public class GestorConexiones {
             e.printStackTrace();
         }
 
-        urlConnection.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+        urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         urlConnection.setRequestProperty("Accept", "application/json");
         try {
             urlConnection.setRequestMethod("POST");
@@ -73,9 +73,7 @@ public class GestorConexiones {
         urlConnection.setReadTimeout(10000);
         urlConnection.setConnectTimeout(15000);
 
-        ArrayList<NameValuePair> parametros = new ArrayList<NameValuePair>();
-        parametros.add(new BasicNameValuePair("nombre", nombre));
-        parametros.add(new BasicNameValuePair("contrasena", toSha512(contrasena)));
+        String parametros ="nombre=" + nombre + "&contrasena=" + toSha512(contrasena);
 
 
 
@@ -176,7 +174,88 @@ public class GestorConexiones {
         return output;
     }
 
-    public Integer SingInUser(String nombre, String contra) {
-        return null;
+    public Boolean SingInUser(String nombre, String contra) {
+        URL url = null;
+        Boolean id =false;
+        try {
+            url = new URL(WEB_SERVER_URL+"/grupo/registrar.php");
+           // url = new URL(WEB_SERVER_URL+"/grupo/r.php");
+        //    url = new URL("http://192.168.1.120/registrar.php");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        HttpURLConnection urlConnection = null;
+        try {
+            urlConnection = (HttpURLConnection) url.openConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        urlConnection.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+        urlConnection.setRequestProperty("Accept", "application/json");
+        try {
+            urlConnection.setRequestMethod("POST");
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        }
+        urlConnection.setDoOutput(true); // Send data
+        urlConnection.setDoInput(true); // Receive data
+        urlConnection.setReadTimeout(10000);
+        urlConnection.setConnectTimeout(15000);
+
+        /*ArrayList<NameValuePair> parametros = new ArrayList<NameValuePair>();
+        parametros.add(new BasicNameValuePair("nombre", nombre));
+        parametros.add(new BasicNameValuePair("contrasena", toSha512(contra)));
+*/
+        String parametros ="nombre=" + nombre + "&contrasena=" + toSha512(contra);
+
+   // parametros = "";
+
+        PrintWriter out = null;
+        OutputStream stream = null;
+
+        try {
+            urlConnection.connect();
+            stream = urlConnection.getOutputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+        out = new PrintWriter(stream);
+
+
+        out.print(parametros);
+        out.close();
+
+        int statusCode = 0;
+        try {
+            statusCode = urlConnection.getResponseCode();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String response = "";
+        InputStream inputStream = null;
+                /* 200 represents HTTP OK */
+        if (statusCode == 200) {
+            try {
+                inputStream = new BufferedInputStream(urlConnection.getInputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            response = convertInputStreamToString(inputStream);
+             id = Boolean.valueOf(response);
+
+        } else{
+            // actuar frente al error
+            response = String.valueOf(statusCode);
+        }
+
+        urlConnection.disconnect();
+
+        return id;
     }
 }

@@ -11,4 +11,6 @@
     <string name="errorLogin">El usuario o la contraseña son erroneos</string>
     <string name="title_activity_regist">RegistActivity</string>
     <string name="cancelar">Cancelar</string>
+    <string name="errorReg">Ha ocurrido un error</string>
+    <string name="camposNoInformados">El nombre y la contraseña deben ser informados</string>
 </resources>

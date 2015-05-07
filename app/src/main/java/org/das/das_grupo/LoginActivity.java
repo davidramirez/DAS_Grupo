@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import org.das.das_grupo.packGestores.GestorConexiones;
 import org.das.das_grupo.packGestores.GestorUsuarios;
+import org.xml.sax.helpers.LocatorImpl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,6 +34,14 @@ public class LoginActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        if(GestorUsuarios.getGestorUsuarios().getNombreUsuario(LoginActivity.this) != null &&
+                GestorUsuarios.getGestorUsuarios().getContrasenaUsuario(LoginActivity.this) != null)
+        {
+            Intent i = new Intent(LoginActivity.this,MainActivity.class);
+            startActivity(i);
+            finish();
+        }
+
         btLogin = (Button) findViewById(R.id.btLogInLog);
         btRegistrase = (Button) findViewById(R.id.btRegistrarseLog);
 
@@ -46,10 +55,15 @@ public class LoginActivity extends ActionBarActivity {
                 nombre = String.valueOf(usuario.getText());
                 contra = String.valueOf(contrasena.getText());
 
+                if (nombre.matches("") || contra.matches(""))
+                {
+                    Toast.makeText(LoginActivity.this,getString(R.string.camposNoInformados),Toast.LENGTH_SHORT).show();
+                }
+
                 new AsyncTask<Void, Void, Integer>() {
                     @Override
                     protected Integer doInBackground(Void... params) {
-                        return GestorConexiones.getGestorConexiones().SingInUser(nombre,contra);
+                        return GestorConexiones.getGestorConexiones().logInUser(nombre,contra);
                     }
 
                     @Override
