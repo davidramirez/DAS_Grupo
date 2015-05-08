@@ -32,7 +32,7 @@ public class GestorConexiones {
     private static GestorConexiones mGestor = new GestorConexiones();
 
     //URL base para las conexiones al servidor web
-    public final static String WEB_SERVER_URL ="http://galan.ehu.es/dramirez003/DAS/";
+    public final static String WEB_SERVER_URL ="http://galan.ehu.es/dramirez003/DAS/grupo";
 
     private GestorConexiones()
     {
@@ -49,7 +49,7 @@ public class GestorConexiones {
 
         URL url = null;
         try {
-            url = new URL(WEB_SERVER_URL);
+            url = new URL(WEB_SERVER_URL + "/login.php");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -178,8 +178,8 @@ public class GestorConexiones {
         URL url = null;
         Boolean id =false;
         try {
-            url = new URL(WEB_SERVER_URL+"/grupo/registrar.php");
-           // url = new URL(WEB_SERVER_URL+"/grupo/r.php");
+            url = new URL(WEB_SERVER_URL+"/registrar.php");
+          // url = new URL(WEB_SERVER_URL+"/grupo/r.php");
         //    url = new URL("http://192.168.1.120/registrar.php");
         } catch (MalformedURLException e) {
             e.printStackTrace();

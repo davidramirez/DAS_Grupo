@@ -18,8 +18,8 @@ public class GestorImagenes {
     /**
      * Proporciona la imagen identificada por su path en el servidor.
      */
-    public ?? getImagen(String serverPath)
+  /*  public ?? getImagen(String serverPath)
     {
         //TODO implementar la descarga de la imagen del servidor, opcional el cacheo
-    }
+    }*/
 }

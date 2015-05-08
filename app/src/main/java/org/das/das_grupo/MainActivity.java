@@ -52,7 +52,7 @@ public class MainActivity extends ActionBarActivity {
                 elfragmento = null;
                 Bundle args = new Bundle();
                 switch (position) {
-                    case 0://Ultima Historia
+           /*         case 0://Ultima Historia
                         elfragmento = new ??();
                         break;
                     case 1://Mis Historias
@@ -71,11 +71,12 @@ public class MainActivity extends ActionBarActivity {
                     case 4://Preferencias
                         elfragmento = new ??();
 
-                        break;
+                        break;*/
                     case 5://Cerrar Sesion
                        cerrarSesion();
 
                 }
+                if(position != 5){
                 elfragmento.setArguments(args);
                 FragmentManager elgestorfragmentos = getSupportFragmentManager();
 
@@ -83,7 +84,7 @@ public class MainActivity extends ActionBarActivity {
                 lalista.setItemChecked(position, true);
                 String tituloseccion = opciones[position];
                 getSupportActionBar().setTitle(tituloseccion);
-                ellayout.closeDrawer(lalista);
+                ellayout.closeDrawer(lalista);}
             }
 
 
