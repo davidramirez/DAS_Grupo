@@ -1,5 +1,6 @@
 package org.das.das_grupo;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -7,7 +8,13 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import org.das.das_grupo.packGestores.GestorImagenes;
+import org.das.das_grupo.packGestores.GestorUsuarios;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -21,6 +28,79 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (GestorUsuarios.getGestorUsuarios().getNombreUsuario(MainActivity.this) == null)
+        {
+            cerrarSesion();
+        }
+
+        opciones = getResources ().getStringArray(R.array.nav_options);
+
+        this.lalista = (ListView) findViewById(R.id.elmenu);
+        // Load an array of options names
+        final
+// Set previous array as adapter of the list
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, opciones);
+        lalista.setAdapter(adapter);
+        ellayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+
+        lalista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                elfragmento = null;
+                Bundle args = new Bundle();
+                switch (position) {
+                    case 0://Ultima Historia
+                        elfragmento = new ??();
+                        break;
+                    case 1://Mis Historias
+                        elfragmento = new ??();
+
+                        break;
+                    case 2://Por etiquetas
+                        elfragmento = new ??();
+
+                        break;
+                    case 3://Mejores
+                        elfragmento = new ??();
+
+                        break;
+
+                    case 4://Preferencias
+                        elfragmento = new ??();
+
+                        break;
+                    case 5://Cerrar Sesion
+                       cerrarSesion();
+
+                }
+                elfragmento.setArguments(args);
+                FragmentManager elgestorfragmentos = getSupportFragmentManager();
+
+                elgestorfragmentos.beginTransaction().replace(R.id.contenido, elfragmento).commit();
+                lalista.setItemChecked(position, true);
+                String tituloseccion = opciones[position];
+                getSupportActionBar().setTitle(tituloseccion);
+                ellayout.closeDrawer(lalista);
+            }
+
+
+
+
+        });
+    }
+
+    private void cerrarSesion() {
+        GestorUsuarios.getGestorUsuarios().borrarContrasenaUsuario(MainActivity.this);
+        GestorUsuarios.getGestorUsuarios().borrarGcmIdUsuario(MainActivity.this);
+        GestorUsuarios.getGestorUsuarios().borrarNombreUsuario(MainActivity.this);
+        GestorUsuarios.getGestorUsuarios().borrarIdUsuario(MainActivity.this);
+
+        Intent i = new Intent(MainActivity.this,LoginActivity.class);
+        startActivity(i);
+        finish();
     }
 
     @Override
