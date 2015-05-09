@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+
 import org.das.das_grupo.packGestores.GestorConexiones;
 import org.das.das_grupo.packGestores.GestorUsuarios;
 import org.xml.sax.helpers.LocatorImpl;
@@ -23,10 +25,14 @@ import java.io.InputStreamReader;
 
 public class LoginActivity extends ActionBarActivity {
 
+    private String SENDER_ID = "313210120803";
+    private GoogleCloudMessaging gcm = null;
+
     private Button btLogin,btRegistrase;
     private EditText usuario,contrasena;
 
-    private String nombre,contra;
+    private String nombre,contra,regid;
+    private int id;
     Boolean ok = false;
 
     @Override
@@ -63,7 +69,11 @@ public class LoginActivity extends ActionBarActivity {
                 new AsyncTask<Void, Void, Integer>() {
                     @Override
                     protected Integer doInBackground(Void... params) {
-                        return GestorConexiones.getGestorConexiones().logInUser(nombre,contra);
+                        getGCM();
+
+                        id =  GestorConexiones.getGestorConexiones().logInUser(nombre,contra);
+                        GestorConexiones.getGestorConexiones().singInGCM(id,contra,regid);
+                        return id;
                     }
 
                     @Override
@@ -75,6 +85,7 @@ public class LoginActivity extends ActionBarActivity {
                             GestorUsuarios.getGestorUsuarios().guardarContrasenaUsuario(LoginActivity.this, contra);
                             GestorUsuarios.getGestorUsuarios().guardarNombreUsuario(LoginActivity.this, nombre);
                             GestorUsuarios.getGestorUsuarios().guardarIdUsuario(LoginActivity.this, id.toString());
+                            GestorUsuarios.getGestorUsuarios().guardarGcmIdUsuario(LoginActivity.this,regid);
                             Intent i = new Intent(LoginActivity.this,MainActivity.class);
                             startActivity(i);
                             finish();
@@ -98,6 +109,18 @@ public class LoginActivity extends ActionBarActivity {
             }
         });
 
+    }
+
+    private void getGCM() {
+
+        if (gcm == null) {
+            gcm = GoogleCloudMessaging.getInstance(LoginActivity.this);
+        }
+        try {
+            regid = gcm.register(SENDER_ID);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -24,6 +24,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+
 /**
  * Created by David on 05/05/2015.
  */
@@ -112,7 +117,10 @@ public class GestorConexiones {
                 e.printStackTrace();
             }
             response = convertInputStreamToString(inputStream);
-            id = Integer.valueOf(response);
+            if(response.equals("false"))
+                id = 0;
+            else
+                id = Integer.valueOf(response);
 
         } else{
             // actuar frente al error
@@ -174,7 +182,7 @@ public class GestorConexiones {
         return output;
     }
 
-    public Boolean SingInUser(String nombre, String contra) {
+    public Boolean SingInUser(String nombre, String contra, boolean avisos) {
         URL url = null;
         Boolean id =false;
         try {
@@ -208,7 +216,8 @@ public class GestorConexiones {
         parametros.add(new BasicNameValuePair("nombre", nombre));
         parametros.add(new BasicNameValuePair("contrasena", toSha512(contra)));
 */
-        String parametros ="nombre=" + nombre + "&contrasena=" + toSha512(contra);
+        String parametros ="nombre=" + nombre + "&contrasena=" + toSha512(contra) +
+                "&aviso=" + String.valueOf(avisos);
 
    // parametros = "";
 
@@ -256,6 +265,92 @@ public class GestorConexiones {
 
         urlConnection.disconnect();
 
+
+
         return id;
+    }
+
+
+    public boolean singInGCM(int id, String contra, String regid) {
+        URL url = null;
+        Boolean ok =false;
+        try {
+            url = new URL(WEB_SERVER_URL+"/registro_gcm.php");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        HttpURLConnection urlConnection = null;
+        try {
+            urlConnection = (HttpURLConnection) url.openConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        urlConnection.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+        urlConnection.setRequestProperty("Accept", "application/json");
+        try {
+            urlConnection.setRequestMethod("POST");
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        }
+        urlConnection.setDoOutput(true); // Send data
+        urlConnection.setDoInput(true); // Receive data
+        urlConnection.setReadTimeout(10000);
+        urlConnection.setConnectTimeout(15000);
+
+
+
+        String parametros ="id=" + id +
+                "&contrasena=" + toSha512(contra) +
+                "&gcm="+ regid;
+
+        // parametros = "";
+
+        PrintWriter out = null;
+        OutputStream stream = null;
+
+        try {
+            urlConnection.connect();
+            stream = urlConnection.getOutputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+        out = new PrintWriter(stream);
+
+
+        out.print(parametros);
+        out.close();
+
+        int statusCode = 0;
+        try {
+            statusCode = urlConnection.getResponseCode();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String response = "";
+        InputStream inputStream = null;
+                /* 200 represents HTTP OK */
+        if (statusCode == 200) {
+            try {
+                inputStream = new BufferedInputStream(urlConnection.getInputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            response = convertInputStreamToString(inputStream);
+            ok = Boolean.valueOf(response);
+
+        } else{
+            // actuar frente al error
+            response = String.valueOf(statusCode);
+        }
+
+        urlConnection.disconnect();
+
+        return ok;
     }
 }

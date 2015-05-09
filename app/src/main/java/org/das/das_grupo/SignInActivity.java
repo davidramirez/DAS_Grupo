@@ -62,7 +62,7 @@ public class SignInActivity extends ActionBarActivity {
                     new AsyncTask<Void, Void, Boolean>() {
                         @Override
                         protected Boolean doInBackground(Void... params) {
-                            return GestorConexiones.getGestorConexiones().SingInUser(nomb, contra);
+                            return GestorConexiones.getGestorConexiones().SingInUser(nomb, contra,avis);
                         }
 
                         @Override
