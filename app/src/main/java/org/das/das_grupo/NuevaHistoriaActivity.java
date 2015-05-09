@@ -4,14 +4,35 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AbsListView;
+import android.widget.Button;
+
+import org.das.das_grupo.packDialogos.SelectorFuenteFotoDialog;
 
 
-public class NuevaHistoriaActivity extends ActionBarActivity {
+public class NuevaHistoriaActivity extends ActionBarActivity implements SelectorFuenteFotoDialog.ListenerFuenteFoto {
+
+    Button addfoto;
+    Button addhistoria;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nueva_historia);
+
+        addfoto = (Button) findViewById(R.id.addimagen);
+        addfoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SelectorFuenteFotoDialog dialogo = new SelectorFuenteFotoDialog();
+                dialogo.onAttach(NuevaHistoriaActivity.this);
+                dialogo.show(getSupportFragmentManager(), null);
+            }
+        });
+
+        addhistoria = (Button) findViewById(R.id.historia);
+
     }
 
     @Override
@@ -34,5 +55,17 @@ public class NuevaHistoriaActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void procesarFuente(int fuente) {
+        if (fuente == SelectorFuenteFotoDialog.FUENTE_CAMARA)
+        {
+            //TODO
+        }
+        else if (fuente == SelectorFuenteFotoDialog.FUENTE_GALERIA)
+        {
+
+        }
     }
 }

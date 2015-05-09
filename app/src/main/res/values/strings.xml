@@ -28,5 +28,4 @@
     <string name="camposincorrectos">Alguno de los campos obligatorios está vacío.</string>
     <string name="aviso">Aviso</string>
     <string name="cerrarSesion">¿Seguro que quieres cerrar sesión?</string>
-    <string name="title_activity_google_play_services">GooglePlayServicesActivity</string>
 </resources>
