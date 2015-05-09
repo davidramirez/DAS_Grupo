@@ -13,4 +13,9 @@
     <string name="cancelar">Cancelar</string>
     <string name="errorReg">Ha ocurrido un error</string>
     <string name="camposNoInformados">El nombre y la contraseña deben ser informados</string>
+    <string name="title_activity_nueva_historia">NuevaHistoriaActivity</string>
+    <string name="title_activity_ver_historia">VerHistoriaActivity</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
