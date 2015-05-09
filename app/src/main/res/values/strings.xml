@@ -23,4 +23,9 @@
     <string name="descripcion">Descripción</string>
     <string name="etiquetas">Etiquetas (Separadas por comas)</string>
     <string name="crearhistoria">Crear Historia</string>
+    <string name="ups">Ups</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="camposincorrectos">Alguno de los campos obligatorios está vacío.</string>
+    <string name="aviso">Aviso</string>
+    <string name="cerrarSesion">¿Seguro que quieres cerrar sesión?</string>
 </resources>

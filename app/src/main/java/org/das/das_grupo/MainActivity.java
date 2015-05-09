@@ -73,7 +73,7 @@ public class MainActivity extends ActionBarActivity {
 
                         break;*/
                     case 5://Cerrar Sesion
-                       cerrarSesion();
+                       cerrarSesion();//TODO meter el dialog de cierre
 
                 }
                 if(position != 5){
@@ -93,7 +93,7 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
-    private void cerrarSesion() {
+    public void cerrarSesion() {
         GestorUsuarios.getGestorUsuarios().borrarContrasenaUsuario(MainActivity.this);
         GestorUsuarios.getGestorUsuarios().borrarGcmIdUsuario(MainActivity.this);
         GestorUsuarios.getGestorUsuarios().borrarNombreUsuario(MainActivity.this);
