@@ -28,4 +28,8 @@
     <string name="camposincorrectos">Alguno de los campos obligatorios está vacío.</string>
     <string name="aviso">Aviso</string>
     <string name="cerrarSesion">¿Seguro que quieres cerrar sesión?</string>
+    <string name="nofotos">Seleccione alguna foto para la historia</string>
+    <string name="seleccionfuentefoto">Seleccione de dónde quiere obtener la imagen</string>
+    <string name="camara">Cámara</string>
+    <string name="galeria">Galería</string>
 </resources>
