@@ -37,10 +37,7 @@ public class MainActivity extends ActionBarActivity {
         opciones = getResources ().getStringArray(R.array.nav_options);
 
         this.lalista = (ListView) findViewById(R.id.elmenu);
-        // Load an array of options names
-        final
-// Set previous array as adapter of the list
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, opciones);
         lalista.setAdapter(adapter);
         ellayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -49,7 +46,12 @@ public class MainActivity extends ActionBarActivity {
         lalista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               //El fragmento que neceistemos para
+                //la funcionalidad elegida ira aqui
                 elfragmento = null;
+
+                //Aquí pondremos los argumentos
+                //para el fragmento elegido
                 Bundle args = new Bundle();
                 switch (position) {
            /*         case 0://Ultima Historia
@@ -76,6 +78,9 @@ public class MainActivity extends ActionBarActivity {
                        cerrarSesion();//TODO meter el dialog de cierre
 
                 }
+                //Para cerrar sesión no necesitamos fragmeto,
+                //por eso controlamos que la opción elegeida
+                //no sea cerrar sesión
                 if(position != 5){
                 elfragmento.setArguments(args);
                 FragmentManager elgestorfragmentos = getSupportFragmentManager();
@@ -94,6 +99,10 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void cerrarSesion() {
+        //Eliminamos el id del usuario de la BD,
+        // su nombre, contraseña e Id del GCM y
+        //lanzamos la actividad del login antes
+        //de cerrar la actividad actual
         GestorUsuarios.getGestorUsuarios().borrarContrasenaUsuario(MainActivity.this);
         GestorUsuarios.getGestorUsuarios().borrarGcmIdUsuario(MainActivity.this);
         GestorUsuarios.getGestorUsuarios().borrarNombreUsuario(MainActivity.this);
