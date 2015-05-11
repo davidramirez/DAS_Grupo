@@ -19,7 +19,7 @@
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="titulo">Título</string>
-    <string name="addimagen">Añadir\nImagen</string>
+    <string name="addimagen">Añadir Imagen</string>
     <string name="descripcion">Descripción</string>
     <string name="etiquetas">Etiquetas (Separadas por comas)</string>
     <string name="crearhistoria">Crear Historia</string>
