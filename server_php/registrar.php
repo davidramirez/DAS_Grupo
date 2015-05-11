@@ -7,18 +7,19 @@
 	if ($conn->connect_error)
 	    die(false);
 
-	if (!empty($_POST["nombre"]) && !empty($_POST["contrasena"])) {
+	if (!empty($_POST["nombre"]) && !empty($_POST["contrasena"]) && !empty($_POST["aviso"])) {
 		$user = $_POST["nombre"];
 		$pass = $_POST["contrasena"];
+		$aviso = $_POST["aviso"];
 
-		$query = "INSERT INTO usuarios (nombre, contrasena) VALUES ('$user', '$pass')";
+		$query = "INSERT INTO usuarios (nombre, contrasena, avisar_nuevo_historia) VALUES ('$user', '$pass','$aviso')";
 
 		if (!$conn->query($query))
-			die(false);
+			{die(false);}
 
-		echo true;
+		echo 'true';
 
 		$conn->close();
 	} else
-	    echo false;
+	    {echo 'false';}
 ?>

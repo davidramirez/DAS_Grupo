@@ -5,7 +5,7 @@
 
 	// Check connection
 	if ($conn->connect_error)
-		die(false);
+		die('false');
 
 	if (!empty($_POST["nombre"]) && !empty($_POST["contrasena"])) {
 		$user = $_POST["nombre"];
@@ -19,9 +19,9 @@
 		if (!empty($row)) {
 			echo $row['id'];
 		} else
-			echo false;
+			echo 'false';
 
 		$conn->close();
 	} else
-		echo false;
+		echo 'false';
 ?>

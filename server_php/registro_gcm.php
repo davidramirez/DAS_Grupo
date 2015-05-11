@@ -5,7 +5,7 @@
 
     // Check connection
     if ($conn->connect_error)
-        die(false);
+        die("false");
 
     if (!empty($_POST["id"]) && $_POST["contrasena"]) && !empty($_POST["gcm"])) {
         $id = $_POST["id"];
@@ -15,11 +15,11 @@
         $query = "UPDATE usuarios SET id_gcm = '$gcm' WHERE id = '$id' AND contrasena = '$pass'";
 
         if (!$conn->query($query))
-            die(false);
+            die("false");
 
-        echo true;
+        echo "true";
 
         $conn->close();
     } else
-        echo false;
+        echo "false";
 ?>
