@@ -1,6 +1,7 @@
 package org.das.das_grupo;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -17,7 +18,7 @@ import org.das.das_grupo.packGestores.GestorImagenes;
 import org.das.das_grupo.packGestores.GestorUsuarios;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements ListarHistoriasFragment.OnFragmentInteractionListener {
 
     private ListView lalista;
     private DrawerLayout ellayout;
@@ -46,7 +47,7 @@ public class MainActivity extends ActionBarActivity {
         lalista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               //El fragmento que neceistemos para
+                //El fragmento que neceistemos para
                 //la funcionalidad elegida ira aqui
                 elfragmento = null;
 
@@ -54,10 +55,10 @@ public class MainActivity extends ActionBarActivity {
                 //para el fragmento elegido
                 Bundle args = new Bundle();
                 switch (position) {
-           /*         case 0://Ultima Historia
-                        elfragmento = new ??();
+                    case 0://Ultima Historia
+                        elfragmento = new ListarHistoriasFragment();
                         break;
-                    case 1://Mis Historias
+                   /* case 1://Mis Historias
                         elfragmento = new ??();
 
                         break;
@@ -75,21 +76,21 @@ public class MainActivity extends ActionBarActivity {
 
                         break;*/
                     case 5://Cerrar Sesion
-                       cerrarSesion();//TODO meter el dialog de cierre
+                        cerrarSesion();//TODO meter el dialog de cierre
 
                 }
                 //Para cerrar sesión no necesitamos fragmeto,
                 //por eso controlamos que la opción elegeida
                 //no sea cerrar sesión
                 if(position != 5){
-                elfragmento.setArguments(args);
-                FragmentManager elgestorfragmentos = getSupportFragmentManager();
+                    elfragmento.setArguments(args);
+                    FragmentManager elgestorfragmentos = getSupportFragmentManager();
 
-                elgestorfragmentos.beginTransaction().replace(R.id.contenido, elfragmento).commit();
-                lalista.setItemChecked(position, true);
-                String tituloseccion = opciones[position];
-                getSupportActionBar().setTitle(tituloseccion);
-                ellayout.closeDrawer(lalista);}
+                    elgestorfragmentos.beginTransaction().replace(R.id.contenido, elfragmento).commit();
+                    lalista.setItemChecked(position, true);
+                    String tituloseccion = opciones[position];
+                    getSupportActionBar().setTitle(tituloseccion);
+                    ellayout.closeDrawer(lalista);}
             }
 
 
@@ -163,5 +164,10 @@ public class MainActivity extends ActionBarActivity {
 
             getSupportActionBar().setTitle(savedInstanceState.getCharSequence("titulo"));
         }
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

@@ -11,3 +11,5 @@ http://loopj.com/android-async-http/doc/com/loopj/android/http/RequestParams.htm
 Galería... aunque estaba por los apuntes creo
 http://programmerguru.com/android-tutorial/how-to-pick-image-from-gallery/
 
+Ejemplo de listView modificado con imagenes
+ http://amitandroid.blogspot.com.es/2013/03/android-listview-with-checkbox-and.html

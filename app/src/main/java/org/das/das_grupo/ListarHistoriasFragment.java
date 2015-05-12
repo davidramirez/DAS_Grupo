@@ -3,10 +3,22 @@ package org.das.das_grupo;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import org.das.das_grupo.packListasMod.ListAdapter;
+import org.das.das_grupo.packListasMod.historia;
+
+import java.sql.Date;
+import java.util.ArrayList;
 
 
 /**
@@ -17,7 +29,7 @@ import android.view.ViewGroup;
  * Use the {@link ListarHistoriasFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListarHistoriasFragment extends Fragment {
+public class ListarHistoriasFragment extends  android.support.v4.app.Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -26,6 +38,10 @@ public class ListarHistoriasFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private ArrayList<historia> products = new ArrayList<historia>();
+    private ListAdapter boxAdapter;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -64,7 +80,14 @@ public class ListarHistoriasFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_listar_historias, container, false);
+
+    }
+
+    private void fillData() {
+        products.add(new historia(1,"prueba1","yo",new Date(System.currentTimeMillis())));
+        products.add(new historia(2,"prueba2","yo",new Date(System.currentTimeMillis())));
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -91,6 +114,23 @@ public class ListarHistoriasFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        fillData();
+        boxAdapter = new ListAdapter(products,getActivity().getApplicationContext());
+
+        ListView lvMain = (ListView) getView().findViewById(R.id.lvMain);// (ListView) getView().findViewById(R.id.lvMain);
+        lvMain.setAdapter(boxAdapter);
+
+        lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getActivity().getApplicationContext(), "Pulsado:\t"+position, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -105,5 +145,7 @@ public class ListarHistoriasFragment extends Fragment {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
+
+
 
 }
