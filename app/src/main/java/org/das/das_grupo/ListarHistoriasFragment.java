@@ -2,6 +2,7 @@ package org.das.das_grupo;
 
 import android.app.Activity;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.DialogFragment;
@@ -14,8 +15,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import org.das.das_grupo.packGestores.GestorConexiones;
 import org.das.das_grupo.packListasMod.ListAdapter;
 import org.das.das_grupo.packListasMod.historia;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -86,8 +91,38 @@ public class ListarHistoriasFragment extends  android.support.v4.app.Fragment {
     }
 
     private void fillData() {
-        products.add(new historia(1,"prueba1","yo",new Date(System.currentTimeMillis())));
-        products.add(new historia(2,"prueba2","yo",new Date(System.currentTimeMillis())));
+
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                return GestorConexiones.getGestorConexiones().listarUltimasHistorias();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                JSONArray json = null;
+                try {
+                    json = new JSONArray(s);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                JSONObject aux = null;
+                for (int i = 0; i < json.length(); i++){
+                    try {
+                        aux = json.getJSONObject(i);
+                        products.add(new historia(aux.getInt("id"),aux.getString("titulo"),
+                                aux.getString("autor"),new Date(aux.getLong("fecha"))));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+            }
+        }.execute(null,null,null);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
