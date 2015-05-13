@@ -2,11 +2,19 @@ package org.das.das_grupo;
 
 import android.app.Activity;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import org.das.das_grupo.packGestores.GestorConexiones;
+import org.das.das_grupo.packGestores.GestorUsuarios;
 
 
 /**
@@ -26,6 +34,13 @@ public class PreferenciasFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private Button cambiar;
+    private EditText contraV, contraN1, contraN2;
+    private CheckBox avisos;
+
+    private String contv,contn1,contn2;
+    private boolean avis = false;
 
     private OnFragmentInteractionListener mListener;
 
@@ -58,6 +73,53 @@ public class PreferenciasFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        cambiar = (Button) getActivity().findViewById(R.id.cambiarPref);
+        contraV = (EditText) getActivity().findViewById(R.id.contraAntPref);
+        contraN1 = (EditText) getActivity().findViewById(R.id.contraNuev1Pref);
+        contraN2 = (EditText) getActivity().findViewById(R.id.contraNueva2Pref);
+        avisos = (CheckBox) getActivity().findViewById(R.id.avisosPref);
+
+        cambiar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                contv = String.valueOf(contraV.getText());
+                contn1 = String.valueOf(contraN1.getText());
+                contn2 = String.valueOf(contraN2.getText());
+                avis = avisos.isChecked();
+
+                if (contv.matches("") || contn1.matches("") || contn2.matches("")) {
+                    Toast.makeText(getActivity().getApplicationContext(), getString(R.string.camposincorrectos), Toast.LENGTH_SHORT).show();
+                } else {
+                    if (contn1.equals(contn2) && contv.equals(GestorUsuarios.getGestorUsuarios().getContrasenaUsuario(getActivity().getApplicationContext()))) {
+                        new AsyncTask<Void, Void, Boolean>() {
+                            @Override
+                            protected Boolean doInBackground(Void... params) {
+                                return GestorConexiones.getGestorConexiones().updateUser(GestorUsuarios.getGestorUsuarios().getIdUsuario(getActivity().getApplication()),
+                                        GestorUsuarios.getGestorUsuarios().getGcmIdUsuario(getActivity().getApplication()),contn1 ,contv, avis);
+                            }
+
+                            @Override
+                            protected void onPostExecute(Boolean id) {
+                                super.onPostExecute(id);
+
+                                if (id == false) {
+                                    Toast.makeText(getActivity().getApplicationContext(), getString(R.string.errorReg), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }.execute(null, null, null);
+                    } else {
+                        Toast.makeText(getActivity().getApplicationContext(), getString(R.string.contrasenasNoCoinciden), Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+            }
+        });
+
     }
 
     @Override

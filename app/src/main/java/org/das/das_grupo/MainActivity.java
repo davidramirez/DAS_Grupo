@@ -19,7 +19,7 @@ import org.das.das_grupo.packGestores.GestorImagenes;
 import org.das.das_grupo.packGestores.GestorUsuarios;
 
 
-public class MainActivity extends ActionBarActivity implements ListarHistoriasFragment.OnFragmentInteractionListener {
+public class MainActivity extends ActionBarActivity implements ListarHistoriasFragment.OnFragmentInteractionListener, PreferenciasFragment.OnFragmentInteractionListener {
 
     private ListView lalista;
     private DrawerLayout ellayout;
@@ -71,11 +71,10 @@ public class MainActivity extends ActionBarActivity implements ListarHistoriasFr
                         elfragmento = new ??();
 
                         break;
-
+*/
                     case 4://Preferencias
-                        elfragmento = new ??();
-
-                        break;*/
+                        elfragmento = new PreferenciasFragment();
+                        break;
                     case 5://Cerrar Sesion
                         cerrarSesion();//TODO meter el dialog de cierre
 

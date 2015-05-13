@@ -1,9 +1,62 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="org.das.das_grupo.PreferenciasFragment">
+    android:layout_height="match_parent" tools:context="org.das.das_grupo.PreferenciasFragment"
+    android:fillViewport="false"
+  >
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Cambiar Contraseña"
+            android:id="@+id/textView" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/contraAntPref"
+            android:hint="Contraseña antigua" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/contraNuev1Pref"
+            android:hint="Introduce nueva contraseña" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/contraNueva2Pref"
+            android:layout_gravity="center_horizontal"
+            android:hint="Repite nueva contraseña" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Avisarme de nuevas historias"
+            android:id="@+id/avisosPref"
+            android:layout_gravity="center_horizontal"
+            android:checked="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cambiar"
+            android:id="@+id/cambiarPref"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+</ScrollView>

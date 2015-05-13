@@ -33,4 +33,5 @@
     <string name="galeria">Galería</string>
     <string name="nofotos">Incluya alguna foto para poder continuar</string>
     <string name="actionNuevaHistoria">Crear Nueva Historia</string>
+    <string name="contrasenasNoCoinciden">Las contraseñas nuevas no coinciden o la contraseña antigua es incorrecta</string>
 </resources>

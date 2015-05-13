@@ -438,4 +438,88 @@ public class GestorConexiones {
 
         return response;
     }
+
+    public Boolean updateUser(String idUsuario, String gcmIdUsuario, String contn1, String contv, boolean avis) {
+        URL url = null;
+        Boolean ok =false;
+        try {
+            url = new URL(WEB_SERVER_URL+"/update_user.php");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        HttpURLConnection urlConnection = null;
+        try {
+            urlConnection = (HttpURLConnection) url.openConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        urlConnection.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+        urlConnection.setRequestProperty("Accept", "application/json");
+        try {
+            urlConnection.setRequestMethod("POST");
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        }
+        urlConnection.setDoOutput(true); // Send data
+        urlConnection.setDoInput(true); // Receive data
+        urlConnection.setReadTimeout(10000);
+        urlConnection.setConnectTimeout(15000);
+
+
+
+        String parametros ="id=" +idUsuario+
+                "&contrasena=" + toSha512(contn1) +
+                "&gcm="+ gcmIdUsuario+"&aviso=" + String.valueOf(avis)+
+                "&oldpass=" + contv ;
+
+        // parametros = "";
+
+        PrintWriter out = null;
+        OutputStream stream = null;
+
+        try {
+            urlConnection.connect();
+            stream = urlConnection.getOutputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+        out = new PrintWriter(stream);
+
+
+        out.print(parametros);
+        out.close();
+
+        int statusCode = 0;
+        try {
+            statusCode = urlConnection.getResponseCode();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String response = "";
+        InputStream inputStream = null;
+                /* 200 represents HTTP OK */
+        if (statusCode == 200) {
+            try {
+                inputStream = new BufferedInputStream(urlConnection.getInputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            response = convertInputStreamToString(inputStream);
+            ok = Boolean.valueOf(response);
+
+        } else{
+            // actuar frente al error
+            response = String.valueOf(statusCode);
+        }
+
+        urlConnection.disconnect();
+
+        return ok;
+    }
 }
