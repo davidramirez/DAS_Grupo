@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.das.das_grupo.packGestores.GestorImagenes;
 import org.das.das_grupo.packGestores.GestorUsuarios;
@@ -129,7 +130,9 @@ public class MainActivity extends ActionBarActivity implements ListarHistoriasFr
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.actionNuevaHistoria) {
+            Intent i = new Intent(MainActivity.this,NuevaHistoriaActivity.class);
+            startActivity(i);
             return true;
         }
 

@@ -31,7 +31,7 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
             }
         });
 
-        addhistoria = (Button) findViewById(R.id.historia);
+        addhistoria = (Button) findViewById(R.id.crear);
 
     }
 
