@@ -19,7 +19,7 @@ import org.das.das_grupo.packGestores.GestorImagenes;
 import org.das.das_grupo.packGestores.GestorUsuarios;
 
 
-public class MainActivity extends ActionBarActivity implements ListarHistoriasFragment.OnFragmentInteractionListener, PreferenciasFragment.OnFragmentInteractionListener {
+public class MainActivity extends ActionBarActivity implements ListarEtiquetasFragment.OnFragmentInteractionListener, ListarHistoriasFragment.OnFragmentInteractionListener, PreferenciasFragment.OnFragmentInteractionListener {
 
     private ListView lalista;
     private DrawerLayout ellayout;
@@ -62,12 +62,12 @@ public class MainActivity extends ActionBarActivity implements ListarHistoriasFr
                    /* case 1://Mis Historias
                         elfragmento = new ??();
 
-                        break;
+                        break;*/
                     case 2://Por etiquetas
-                        elfragmento = new ??();
+                        elfragmento = new ListarEtiquetasFragment();
 
                         break;
-                    case 3://Mejores
+                   /* case 3://Mejores
                         elfragmento = new ??();
 
                         break;
