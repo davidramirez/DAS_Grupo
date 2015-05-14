@@ -12,7 +12,7 @@
 		$where = "";
 		$limit = "";
 
-		swicth($accion) {
+		switch($accion) {
 			case "ultimas":
 				$limit = "LIMIT " + (!empty($_POST["cuantas"])) ? $_POST["cuantas"] : "10";
 				break;
