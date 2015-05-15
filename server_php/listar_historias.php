@@ -17,18 +17,18 @@
 				$limit = "LIMIT " + (!empty($_POST["cuantas"])) ? $_POST["cuantas"] : "10";
 				break;
 			case "usuario":
-				$where = (!empty($_POST["id"])) ? "usuarios.id = " + $_POST["id"] : "";
+				$where = (!empty($_POST["id"])) ? "AND usuarios.id = " + $_POST["id"] : "";
 				$limit = "LIMIT " + (!empty($_POST["cuantas"])) ? $_POST["cuantas"] : "10";
 				break;
 			/*case "mejores":
 				break;*/
 			case "etiqueta":
-				$where = (!empty($_POST["id"])) ? "etiquetas.id_etiq = " + $_POST["id"] : "10";
+				$where = (!empty($_POST["id"])) ? "AND etiquetas.id_etiq = " + $_POST["id"] : "";
 				$limit = "LIMIT " + (!empty($_POST["cuantas"])) ? $_POST["cuantas"] : "10";
 				break;
 		}
 
-		$query = "SELECT historia.id as id, historia.titulo as titulo, usuarios.nombre as nombre, historia.fecha as fecha FROM usuarios, historia, etiquetas WHERE usuarios.id = historia.id_us AND historia.id = etiquetas.id_hist AND $where $limit";
+		$query = "SELECT historia.id as id, historia.titulo as titulo, usuarios.nombre as nombre, historia.fecha as fecha FROM usuarios, historia, etiquetas WHERE usuarios.id = historia.id_us AND historia.id = etiquetas.id_hist $where $limit";
 		$sql = $conn->query($query);
 
 		$historias = array();
