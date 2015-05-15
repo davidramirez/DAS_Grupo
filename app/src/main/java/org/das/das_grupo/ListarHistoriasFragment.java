@@ -24,6 +24,7 @@ import org.json.JSONObject;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 /**
@@ -44,7 +45,7 @@ public class ListarHistoriasFragment extends  android.support.v4.app.Fragment {
     private String mParam1;
     private String mParam2;
 
-    private ArrayList<historia> products = new ArrayList<historia>();
+    private ArrayList<historia> products;
     private ListAdapter boxAdapter;
 
 
@@ -110,17 +111,34 @@ public class ListarHistoriasFragment extends  android.support.v4.app.Fragment {
                     e.printStackTrace();
                 }
 
+                    products = new ArrayList<historia>();
+                    historia hist = null;
                 JSONObject aux = null;
                 for (int i = 0; i < json.length(); i++) {
                     try {
                         aux = json.getJSONObject(i);
-                        products.add(new historia(aux.getInt("id"), aux.getString("titulo"),
-                                aux.getString("autor"), new Date(aux.getLong("fecha"))));
+             //        long time =java.util.Date.parse(aux.getString("fecha"));
+                        //dat.
+
+                        hist = new historia(aux.getInt("id"), aux.getString("titulo"),
+                                aux.getString("usuario"),new Date(System.currentTimeMillis()));
+                        products.add(hist);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
 
+                    boxAdapter = new ListAdapter(products,getActivity().getApplicationContext());
+
+                    ListView lvMain = (ListView) getView().findViewById(R.id.lvMain);// (ListView) getView().findViewById(R.id.lvMain);
+                    lvMain.setAdapter(boxAdapter);
+
+                    lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Toast.makeText(getActivity().getApplicationContext(), "Pulsado:\t"+position, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         }.execute(null,null,null);
@@ -154,17 +172,7 @@ public class ListarHistoriasFragment extends  android.support.v4.app.Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         fillData();
-        boxAdapter = new ListAdapter(products,getActivity().getApplicationContext());
 
-        ListView lvMain = (ListView) getView().findViewById(R.id.lvMain);// (ListView) getView().findViewById(R.id.lvMain);
-        lvMain.setAdapter(boxAdapter);
-
-        lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity().getApplicationContext(), "Pulsado:\t"+position, Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     /**

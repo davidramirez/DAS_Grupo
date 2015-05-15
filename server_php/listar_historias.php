@@ -28,21 +28,22 @@
 				break;
 		}
 
-		$query = "SELECT historia.id, historia.titulo, usuarios.nombre, historia.fecha FROM usuarios, historia, etiquetas WHERE usuarios.id = historia.id_us AND historia.id = etiquetas.id_hist AND $where $limit";
+		$query = "SELECT historia.id as id, historia.titulo as titulo, usuarios.nombre as nombre, historia.fecha as fecha FROM usuarios, historia, etiquetas WHERE usuarios.id = historia.id_us AND historia.id = etiquetas.id_hist AND $where $limit";
 		$sql = $conn->query($query);
 
 		$historias = array();
 
 		while ($historia = $sql->fetch_assoc()) {
-			$aux['id'] = $historia['historia.id'];
-			$aux['titulo'] = $historia['historia.titulo'];
-			$aux['usuario'] = $historia['usuarios.nombre'];
-			$aux['fecha'] = $historia['historia.fecha'];
+			$aux['id'] = $historia['id'];
+			$aux['titulo'] = $historia['titulo'];
+			$aux['usuario'] = $historia['nombre'];
+			$aux['fecha'] = $historia['fecha'];
 			array_push($historias, $aux);
 		}
 
 		header("Content-Type: application/json");
-		echo json_encode($notes);
+		//echo json_encode($notes);
+		echo json_encode($historias);
 
 		$conn->close();
 	} else

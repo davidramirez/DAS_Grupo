@@ -1,6 +1,7 @@
 package org.das.das_grupo;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.das.das_grupo.packGestores.GestorConexiones;
@@ -48,17 +50,10 @@ public class ListarEtiquetasFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         listview = (ListView) getActivity().findViewById(R.id.listView);
+        display = new ArrayList<String>();
 
         fillData();
-        fillDisplay();
 
-        arrayAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),android.R.layout.simple_list_item_1,android.R.id.text1,display);
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getActivity().getApplicationContext(), "pulsado " + etiquetas.get(i), Toast.LENGTH_SHORT).show();
-            }
-        });
 
     }
 
@@ -71,12 +66,31 @@ public class ListarEtiquetasFragment extends Fragment {
     }
 
     private void fillDisplay() {
-    display = new ArrayList<String>();
+
     if (etiquetas.size() != 0) {
         for (Etiqueta aux : etiquetas) {
             display.add(aux.getNombre() + "\t(" + aux.getCantidad() + ")");
         }
     }
+
+        arrayAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),android.R.layout.simple_list_item_1,display){
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view=super.getView(position, convertView, parent);
+            TextView text= (TextView) view.findViewById(android.R.id.text1);
+            text.setTextColor(Color.BLACK);
+            return view;
+        }
+    };
+        listview.setAdapter(arrayAdapter);
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getActivity().getApplicationContext(), "pulsado " + etiquetas.get(i), Toast.LENGTH_SHORT).show();
+                display.add("kk");
+                arrayAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -147,6 +161,9 @@ public class ListarEtiquetasFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
+                        fillDisplay();
+                        arrayAdapter.notifyDataSetChanged();
                     }
 
                 }
