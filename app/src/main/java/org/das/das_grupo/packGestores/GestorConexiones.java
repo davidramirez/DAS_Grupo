@@ -354,11 +354,14 @@ public class GestorConexiones {
         return ok;
     }
 
-    public String listarHistorias(String accion) {
+    public String listarHistorias(String accion, int ident) {
         URL url = null;
         Boolean id =false;
+
         try {
             url = new URL(WEB_SERVER_URL+"/listar_historias.php");
+           // url = new URL("http://192.168.1.67/listar_historias.php");
+
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -387,7 +390,8 @@ public class GestorConexiones {
         parametros.add(new BasicNameValuePair("nombre", nombre));
         parametros.add(new BasicNameValuePair("contrasena", toSha512(contra)));
 */
-        String parametros ="accion=" + accion;
+        String parametros ="accion=" + accion +
+                "&id=" + ident;
 
         // parametros = "";
 

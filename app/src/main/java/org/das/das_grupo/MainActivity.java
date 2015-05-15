@@ -51,27 +51,29 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
                 //El fragmento que neceistemos para
                 //la funcionalidad elegida ira aqui
                 elfragmento = null;
-
+                int seleccion = 0;
+                int ident = 0;
                 //Aquí pondremos los argumentos
                 //para el fragmento elegido
                 Bundle args = new Bundle();
                 switch (position) {
                     case 0://Ultima Historia
                         elfragmento = new ListarHistoriasFragment();
-                        break;
-                   /* case 1://Mis Historias
-                        elfragmento = new ??();
+                        seleccion = 0;
 
-                        break;*/
+                        break;
+                    case 1://Mis Historias
+                        elfragmento = new ListarHistoriasFragment();
+                        seleccion = 1;
+                        break;
                     case 2://Por etiquetas
                         elfragmento = new ListarEtiquetasFragment();
-
                         break;
-                   /* case 3://Mejores
-                        elfragmento = new ??();
-
+                    case 3://Mejores
+                        elfragmento = new ListarHistoriasFragment();
+                        seleccion = 2;
                         break;
-*/
+
                     case 4://Preferencias
                         elfragmento = new PreferenciasFragment();
                         break;
@@ -79,6 +81,8 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
                         cerrarSesion();//TODO meter el dialog de cierre
 
                 }
+                args.putInt("opcion",seleccion);
+                args.putInt("id",ident);
                 //Para cerrar sesión no necesitamos fragmeto,
                 //por eso controlamos que la opción elegeida
                 //no sea cerrar sesión

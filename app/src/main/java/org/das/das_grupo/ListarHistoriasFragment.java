@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import org.das.das_grupo.packGestores.GestorConexiones;
+import org.das.das_grupo.packGestores.GestorUsuarios;
 import org.das.das_grupo.packListasMod.ListAdapter;
 import org.das.das_grupo.packListasMod.historia;
 import org.json.JSONArray;
@@ -47,6 +48,8 @@ public class ListarHistoriasFragment extends  android.support.v4.app.Fragment {
 
     private ArrayList<historia> products;
     private ListAdapter boxAdapter;
+    private int seleccion = 0;
+    private int id = 0;
 
 
     private OnFragmentInteractionListener mListener;
@@ -79,6 +82,8 @@ public class ListarHistoriasFragment extends  android.support.v4.app.Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            seleccion = getArguments().getInt("opcion");
+            id = getArguments().getInt("id");
         }
     }
 
@@ -96,7 +101,26 @@ public class ListarHistoriasFragment extends  android.support.v4.app.Fragment {
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
-                return GestorConexiones.getGestorConexiones().listarHistorias("ultimas");
+                String resultado = "";
+                switch (seleccion){
+                    case 0://Ultima historia
+                        resultado = GestorConexiones.getGestorConexiones().listarHistorias("ultimas", id);
+                    break;
+                    case 1://Mis historias
+                        resultado = GestorConexiones.getGestorConexiones().listarHistorias("usuario", Integer.parseInt(GestorUsuarios.getGestorUsuarios().getIdUsuario(getActivity().getApplicationContext())));
+                    break;
+                    case 2://Mejores
+                        resultado = GestorConexiones.getGestorConexiones().listarHistorias("ultimas", id);
+                    break;
+                    case 3://etiquetas
+                        resultado = GestorConexiones.getGestorConexiones().listarHistorias("etiqueta", id);
+                        break;
+                    default:
+                        resultado = GestorConexiones.getGestorConexiones().listarHistorias("ultimas", 0);
+                    break;
+                }
+                return resultado;
+
             }
 
             @Override
@@ -104,29 +128,29 @@ public class ListarHistoriasFragment extends  android.support.v4.app.Fragment {
                 super.onPostExecute(s);
 
                 if (!s.equals("null")){
-                JSONArray json = null;
-                try {
-                    json = new JSONArray(s);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                    products = new ArrayList<historia>();
-                    historia hist = null;
-                JSONObject aux = null;
-                for (int i = 0; i < json.length(); i++) {
+                    JSONArray json = null;
                     try {
-                        aux = json.getJSONObject(i);
-             //        long time =java.util.Date.parse(aux.getString("fecha"));
-                        //dat.
-
-                        hist = new historia(aux.getInt("id"), aux.getString("titulo"),
-                                aux.getString("usuario"),new Date(System.currentTimeMillis()));
-                        products.add(hist);
+                        json = new JSONArray(s);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
+
+                    products = new ArrayList<historia>();
+                    historia hist = null;
+                    JSONObject aux = null;
+                    for (int i = 0; i < json.length(); i++) {
+                        try {
+                            aux = json.getJSONObject(i);
+                            //        long time =java.util.Date.parse(aux.getString("fecha"));
+                            //dat.
+
+                            hist = new historia(aux.getInt("id"), aux.getString("titulo"),
+                                    aux.getString("usuario"),new Date(System.currentTimeMillis()));
+                            products.add(hist);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
 
                     boxAdapter = new ListAdapter(products,getActivity().getApplicationContext());
 
