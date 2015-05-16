@@ -135,7 +135,7 @@ public class ListarHistoriasFragment extends  android.support.v4.app.Fragment {
                         e.printStackTrace();
                     }
 
-                    products = new ArrayList<historia>();
+
                     historia hist = null;
                     JSONObject aux = null;
                     for (int i = 0; i < json.length(); i++) {
@@ -160,7 +160,7 @@ public class ListarHistoriasFragment extends  android.support.v4.app.Fragment {
                     lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Toast.makeText(getActivity().getApplicationContext(), "Pulsado:\t"+position, Toast.LENGTH_SHORT).show();
+                            mListener.onHistoriaSelected(products.get(position).id);
                         }
                     });
                 }
@@ -195,6 +195,7 @@ public class ListarHistoriasFragment extends  android.support.v4.app.Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        products = new ArrayList<historia>();
         fillData();
 
     }
@@ -212,6 +213,7 @@ public class ListarHistoriasFragment extends  android.support.v4.app.Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+        public void onHistoriaSelected(int id);
     }
 
 

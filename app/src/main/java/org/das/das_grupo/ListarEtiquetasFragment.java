@@ -86,8 +86,7 @@ public class ListarEtiquetasFragment extends Fragment {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getActivity().getApplicationContext(), "pulsado " + etiquetas.get(i).getId(), Toast.LENGTH_SHORT).show();
-
+                mListener.onEtiquetaSelected(etiquetas.get(i).getId());
             }
         });
     }
@@ -129,6 +128,7 @@ public class ListarEtiquetasFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+        public void onEtiquetaSelected(int id);
     }
 
     private void fillData() {

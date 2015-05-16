@@ -81,12 +81,12 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
                         cerrarSesion();//TODO meter el dialog de cierre
 
                 }
-                args.putInt("opcion",seleccion);
-                args.putInt("id",ident);
+                args.putInt("opcion", seleccion);
+                args.putInt("id", ident);
                 //Para cerrar sesión no necesitamos fragmeto,
                 //por eso controlamos que la opción elegeida
                 //no sea cerrar sesión
-                if(position != 5){
+                if (position != 5) {
                     elfragmento.setArguments(args);
                     FragmentManager elgestorfragmentos = getSupportFragmentManager();
 
@@ -94,10 +94,9 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
                     lalista.setItemChecked(position, true);
                     String tituloseccion = opciones[position];
                     getSupportActionBar().setTitle(tituloseccion);
-                    ellayout.closeDrawer(lalista);}
+                    ellayout.closeDrawer(lalista);
+                }
             }
-
-
 
 
         });
@@ -174,6 +173,24 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onEtiquetaSelected(int id) {
+        Bundle args = new Bundle();
+        elfragmento = new ListarHistoriasFragment();
+        args.putInt("opcion", 3);
+        args.putInt("id", id);
+        FragmentManager elgestorfragmentos = getSupportFragmentManager();
+
+        elgestorfragmentos.beginTransaction().replace(R.id.contenido, elfragmento).commit();
+    }
+
+    @Override
+    public void onHistoriaSelected(int id) {
+        Toast.makeText(MainActivity.this,String.valueOf(id),Toast.LENGTH_SHORT).show();
+
 
     }
 }
