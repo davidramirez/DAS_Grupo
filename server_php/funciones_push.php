@@ -24,7 +24,7 @@
 
         $conn->close();
 
-        push($suscriptores, $nHistoria);
+        push($suscriptores, $nHistoria['titulo']);
     }
 
     function push($usuarios, $historia) {
