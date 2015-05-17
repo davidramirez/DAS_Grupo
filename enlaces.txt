@@ -13,3 +13,6 @@ http://programmerguru.com/android-tutorial/how-to-pick-image-from-gallery/
 
 Ejemplo de listView modificado con imagenes
  http://amitandroid.blogspot.com.es/2013/03/android-listview-with-checkbox-and.html
+
+ Ejemplo de ImageSwitcher
+ http://www.tutorialspoint.com/android/android_imageswitcher.htm

@@ -155,7 +155,7 @@ public class VerHistoriaActivity extends ActionBarActivity {
     }
 
     private void left() {
-        if (index - 1 <= 0)
+        if (index - 1 >= 0)
             switcher.setImageURI(resources.get(--index));
     }
 
