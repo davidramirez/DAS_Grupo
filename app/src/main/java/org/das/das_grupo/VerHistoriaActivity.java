@@ -1,7 +1,9 @@
 package org.das.das_grupo;
 
+import android.app.ActionBar;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageSwitcher;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,8 +23,12 @@ import org.das.das_grupo.packGestores.GestorUsuarios;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
+
+import android.net.Uri;
+import android.widget.ViewSwitcher;
+
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -37,6 +44,10 @@ public class VerHistoriaActivity extends ActionBarActivity {
     private ArrayList<String> comentarios;
     private ArrayAdapter<String> arrayAdapter;
     private String textoCom;
+
+    private ArrayList<Uri> resources;
+    private int index = 0;
+    private File carpeta = new File(Environment.getExternalStorageDirectory(), ".Capturas");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +73,44 @@ public class VerHistoriaActivity extends ActionBarActivity {
         right = (Button) findViewById(R.id.rightVerH);
         comentar = (Button) findViewById(R.id.comentarBVerH);
 
+        left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                left();
+            }
+        });
+
+        right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                right();
+            }
+        });
+        switcher = (ImageSwitcher) findViewById(R.id.imageSwitcher);
+
+        switcher.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                ImageView myView = new ImageView(getApplicationContext());
+                myView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                myView.setLayoutParams(new ImageSwitcher.LayoutParams(ActionBar.LayoutParams.
+                        FILL_PARENT, ActionBar.LayoutParams.FILL_PARENT));
+                return myView;
+            }
+        });
+
+        if (carpeta.exists()) {
+            resources = new ArrayList<>();
+            resources.add(Uri.fromFile(new File(carpeta, "001.png")));
+            resources.add(Uri.fromFile(new File(carpeta, "002.png")));
+            resources.add(Uri.fromFile(new File(carpeta, "003.png")));
 
 
+            switcher.setImageURI(resources.get(0));
+        }
         comentario = (EditText) findViewById(R.id.comentarTVerH);
 
-        switcher = (ImageSwitcher) findViewById(R.id.imageSwitcher);
+
 
         comentarios = new ArrayList<String>();
 
@@ -108,6 +152,18 @@ public class VerHistoriaActivity extends ActionBarActivity {
             }
         });
 
+    }
+
+    private void left() {
+        if (index - 1 <= 0)
+            switcher.setImageURI(resources.get(--index));
+    }
+
+    private void right() {
+        String resource;
+
+        if (index + 1 < resources.size() )
+        switcher.setImageURI(resources.get(++index));
     }
 
     private void fillData() {
