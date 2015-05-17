@@ -686,4 +686,87 @@ public class GestorConexiones {
 
         return response;
     }
+
+    public Boolean registrarComentario(int id, int id_us, String textoCom) {
+        URL url = null;
+        Boolean ok =false;
+        try {
+            url = new URL(WEB_SERVER_URL+"/registrar_comentario.php");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        HttpURLConnection urlConnection = null;
+        try {
+            urlConnection = (HttpURLConnection) url.openConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        urlConnection.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+        urlConnection.setRequestProperty("Accept", "application/json");
+        try {
+            urlConnection.setRequestMethod("POST");
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        }
+        urlConnection.setDoOutput(true); // Send data
+        urlConnection.setDoInput(true); // Receive data
+        urlConnection.setReadTimeout(10000);
+        urlConnection.setConnectTimeout(15000);
+
+
+
+        String parametros ="id_usuario=" + id_us+
+                "&id_historia="+ id +
+                "&comentario=" + textoCom;
+
+        // parametros = "";
+
+        PrintWriter out = null;
+        OutputStream stream = null;
+
+        try {
+            urlConnection.connect();
+            stream = urlConnection.getOutputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+        out = new PrintWriter(stream);
+
+
+        out.print(parametros);
+        out.close();
+
+        int statusCode = 0;
+        try {
+            statusCode = urlConnection.getResponseCode();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String response = "";
+        InputStream inputStream = null;
+                /* 200 represents HTTP OK */
+        if (statusCode == 200) {
+            try {
+                inputStream = new BufferedInputStream(urlConnection.getInputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            response = convertInputStreamToString(inputStream);
+            ok = Boolean.valueOf(response);
+
+        } else{
+            // actuar frente al error
+            response = String.valueOf(statusCode);
+        }
+
+        urlConnection.disconnect();
+
+        return ok;
+    }
 }

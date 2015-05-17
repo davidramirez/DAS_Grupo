@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import org.das.das_grupo.packGestores.GestorConexiones;
+import org.das.das_grupo.packGestores.GestorUsuarios;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 
 public class VerHistoriaActivity extends ActionBarActivity {
 
-    private int id;
+    private int id,id_us;
     private TextView titulo,autor,descipcion,etiquetas;
     private ListView list;
     private Button left,right, comentar;
@@ -35,6 +36,7 @@ public class VerHistoriaActivity extends ActionBarActivity {
 
     private ArrayList<String> comentarios;
     private ArrayAdapter<String> arrayAdapter;
+    private String textoCom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,8 @@ public class VerHistoriaActivity extends ActionBarActivity {
             id = args.getInt("id");
         }
 
+        id_us = Integer.valueOf(GestorUsuarios.getGestorUsuarios().getIdUsuario(VerHistoriaActivity.this));
+
         titulo = (TextView) findViewById(R.id.tituloVerH);
         autor = (TextView) findViewById(R.id.autorVerH);
         descipcion = (TextView) findViewById(R.id.descripcionVerH);
@@ -57,6 +61,8 @@ public class VerHistoriaActivity extends ActionBarActivity {
         left = (Button) findViewById(R.id.leftVerH);
         right = (Button) findViewById(R.id.rightVerH);
         comentar = (Button) findViewById(R.id.comentarBVerH);
+
+
 
         comentario = (EditText) findViewById(R.id.comentarTVerH);
 
@@ -77,6 +83,30 @@ public class VerHistoriaActivity extends ActionBarActivity {
         list.setAdapter(arrayAdapter);
 
         fillData();
+
+        comentar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                textoCom = String.valueOf(comentario.getText());
+
+                if (!textoCom.matches(""))
+                {
+                    comentarios.add(textoCom);
+                    arrayAdapter.notifyDataSetChanged();
+                    new AsyncTask<Void, Void, Boolean>() {
+                        @Override
+                        protected Boolean doInBackground(Void... voids) {
+                            return GestorConexiones.getGestorConexiones().registrarComentario(id,id_us,textoCom);
+                        }
+
+                        @Override
+                        protected void onPostExecute(Boolean aBoolean) {
+                            super.onPostExecute(aBoolean);
+                            comentario.setText("");
+                        }
+                    }.execute(null,null,null);}
+            }
+        });
 
     }
 
