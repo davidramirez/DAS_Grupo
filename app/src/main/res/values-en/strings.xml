@@ -37,5 +37,5 @@
     <string name="galeria">Gallery</string>
     <string name="nofotos">Add a image to continue.</string>
     <string name="actionNuevaHistoria">Write new story</string>
-    <string name="contrasenasNoCoinciden">The password don't match or the old password is incorrect.</string>
+    <string name="contrasenasNoCoinciden">The new passwords do not match or the old password is incorrect.</string>
 </resources>
