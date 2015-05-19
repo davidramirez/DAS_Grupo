@@ -1,45 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    >
+    android:layout_width="match_parent" android:layout_height="match_parent" >
 
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="10dp"
+        android:layout_height="50dp"
         android:orientation="horizontal"
-        android:layout_weight="1" >
+        android:layout_weight="1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" >
 
-        <TextView
-            android:id="@+id/titItem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textSize="20sp" >
-        </TextView>
+        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/Tabla"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="1" >
 
-        <TextView
-            android:id="@+id/autorItem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textSize="12sp"
-            android:textColor="#0000FF"
-            android:text="" >
-        </TextView>
+            <TableRow
+                android:id="@+id/Cabecera"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/fechaItem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text=""
-            android:textSize="12sp" >
-        </TextView>
+                <TextView
+                    android:id="@+id/titItem"
+                    android:layout_width="fill_parent"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:textColor="#000000"
+                    android:textSize="20sp" >
+                </TextView>
 
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/autor_fecha"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/autorItem"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="12sp"
+                    android:textColor="#0000FF"
+                    android:text="" >
+                </TextView>
+
+                <TextView
+                    android:id="@+id/fechaItem"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text=""
+                    android:textColor="#000000"
+                    android:textSize="12sp" >
+                </TextView>
+
+            </TableRow>
+
+        </TableLayout>
 
     </LinearLayout>
-
 
 </LinearLayout>

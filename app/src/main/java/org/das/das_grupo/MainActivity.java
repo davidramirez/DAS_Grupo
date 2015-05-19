@@ -96,7 +96,7 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
                     elfragmento.setArguments(args);
                     FragmentManager elgestorfragmentos = getSupportFragmentManager();
 
-                    elgestorfragmentos.beginTransaction().add(R.id.contenido, elfragmento).commit();
+                    elgestorfragmentos.beginTransaction().replace(R.id.contenido, elfragmento).commit();
                     elgestorfragmentos.executePendingTransactions();
 
                     lalista.setItemChecked(position, true);
