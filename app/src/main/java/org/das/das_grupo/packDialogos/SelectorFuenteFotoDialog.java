@@ -40,6 +40,7 @@ public class SelectorFuenteFotoDialog extends DialogFragment{
 
     public void onAttach(Activity activity)
     {
+        super.onAttach(activity);
         try{
             ellistener = (ListenerFuenteFoto) activity;
         } catch (ClassCastException e){

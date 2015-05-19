@@ -11,8 +11,15 @@ http://loopj.com/android-async-http/doc/com/loopj/android/http/RequestParams.htm
 Galería... aunque estaba por los apuntes creo
 http://programmerguru.com/android-tutorial/how-to-pick-image-from-gallery/
 
+Camara
+http://stackoverflow.com/questions/5991319/capture-image-from-camera-and-display-in-activity
+https://developer.android.com/training/camera/photobasics.html
+
 Ejemplo de listView modificado con imagenes
  http://amitandroid.blogspot.com.es/2013/03/android-listview-with-checkbox-and.html
 
  Ejemplo de ImageSwitcher
  http://www.tutorialspoint.com/android/android_imageswitcher.htm
+
+Añadir libreria
+https://www.youtube.com/watch?v=fHEvI_G6UtI

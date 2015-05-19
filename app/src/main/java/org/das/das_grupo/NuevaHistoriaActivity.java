@@ -9,8 +9,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.Button;
+import android.widget.Toast;
 
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.apache.http.Header;
 import org.das.das_grupo.packDialogos.SelectorFuenteFotoDialog;
+import org.das.das_grupo.packGestores.GestorConexiones;
 
 
 public class NuevaHistoriaActivity extends ActionBarActivity implements SelectorFuenteFotoDialog.ListenerFuenteFoto {
@@ -37,6 +45,12 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
         });
 
         addhistoria = (Button) findViewById(R.id.crear);
+        addhistoria.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
     }
 
@@ -70,8 +84,7 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
             if(cameraIntent.resolveActivity(getPackageManager()) != null)
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             else
-                //TODO dialogo no hay camara
-            ;
+                Toast.makeText(getApplicationContext(),getString(R.string.errorCamara), Toast.LENGTH_LONG).show();
         }
         else if (fuente == SelectorFuenteFotoDialog.FUENTE_GALERIA)
         {
@@ -79,8 +92,7 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
             if(galleryIntent.resolveActivity(getPackageManager()) != null)
                 startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
             else
-                //TODO dialogo no hay galeria
-            ;
+                Toast.makeText(getApplicationContext(),getString(R.string.errorGaleria), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -90,4 +102,21 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
         Log.i("FOTO", ""+resultCode);
     }
 
+
+    public void subirHistoria(RequestParams parametros)
+    {
+        AsyncHttpClient cliente = new AsyncHttpClient();
+
+        cliente.post(GestorConexiones.WEB_SERVER_URL + "/", parametros, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                Toast.makeText(getApplicationContext(),getString(R.string.exitoHistoria), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                Toast.makeText(getApplicationContext(),getString(R.string.errorHistoria), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 }

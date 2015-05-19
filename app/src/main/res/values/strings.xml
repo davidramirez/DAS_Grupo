@@ -38,4 +38,8 @@
     <string name="nofotos">Incluya alguna foto para poder continuar</string>
     <string name="actionNuevaHistoria">Crear Nueva Historia</string>
     <string name="contrasenasNoCoinciden">Las contraseñas nuevas no coinciden o la contraseña antigua es incorrecta</string>
+    <string name="errorHistoria">Error, no se ha podido guardar la historia</string>
+    <string name="exitoHistoria">La historia se ha guardado correctamente</string>
+    <string name="errorGaleria">No se puede acceder a la galeriá de fotos</string>
+    <string name="errorCamara">No se puede acceder a la cámara</string>
 </resources>
