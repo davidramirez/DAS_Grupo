@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -95,7 +96,11 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
                     elfragmento.setArguments(args);
                     FragmentManager elgestorfragmentos = getSupportFragmentManager();
 
-                    elgestorfragmentos.beginTransaction().replace(R.id.contenido, elfragmento).commit();
+                    elgestorfragmentos.beginTransaction().add(R.id.contenido, elfragmento);
+                    elgestorfragmentos.beginTransaction().addToBackStack(null);
+                    elgestorfragmentos.beginTransaction().commit();
+                    elgestorfragmentos.executePendingTransactions();
+
                     lalista.setItemChecked(position, true);
                     String tituloseccion = opciones[position];
                     getSupportActionBar().setTitle(tituloseccion);
@@ -196,10 +201,26 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
         if(fragmentoActual!=null){
             FragmentManager elgestorfragmentos = getSupportFragmentManager();
 
-            elgestorfragmentos.beginTransaction().replace(R.id.contenido, elfragmento).commit();
+            elgestorfragmentos.beginTransaction().replace(R.id.contenido, elfragmento);
+            elgestorfragmentos.beginTransaction().addToBackStack(null);
+            elgestorfragmentos.beginTransaction().commit();
+            elgestorfragmentos.executePendingTransactions();
 
             getSupportActionBar().setTitle(savedInstanceState.getCharSequence("titulo"));
         }
+    }
+
+    @Override
+    public void onBackPressed() { // opening the previous opened fragment if back space is pressed. Could not be any fragment to open, so the app closes
+        getSupportFragmentManager().executePendingTransactions();
+        if(getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            super.onBackPressed();
+            Log.d("BACK", "IF");
+        } else {
+            getSupportFragmentManager().popBackStack();
+            Log.d("BACK", "ELSE");
+        }
+
     }
 
     public void onFragmentInteraction(Uri uri) {
@@ -213,7 +234,10 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
         args.putInt("id", id);
         FragmentManager elgestorfragmentos = getSupportFragmentManager();
 
-        elgestorfragmentos.beginTransaction().replace(R.id.contenido, elfragmento).commit();
+        elgestorfragmentos.beginTransaction().replace(R.id.contenido, elfragmento);
+        elgestorfragmentos.beginTransaction().addToBackStack(null);
+        elgestorfragmentos.beginTransaction().commit();
+        elgestorfragmentos.executePendingTransactions();
     }
 
     public void onHistoriaSelected(int id) {
