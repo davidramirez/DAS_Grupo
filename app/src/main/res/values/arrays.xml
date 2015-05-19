@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="nav_options">
-        <item>Ultimas historias</item>
+        <item>Últimas historias</item>
         <item>Mis historias</item>
-        <item>Por etiqetas</item>
-        <item>Mejores</item>
+        <item>Historias por etiquetas</item>
+        <item>Mejores historias</item>
         <item>Preferencias</item>
-        <item>Cerrar Sesión</item>
+        <item>Cerrar sesión</item>
     </string-array>
 </resources>
