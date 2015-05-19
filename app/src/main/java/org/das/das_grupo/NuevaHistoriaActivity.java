@@ -1,7 +1,9 @@
 package org.das.das_grupo;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +17,9 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
 
     Button addfoto;
     Button addhistoria;
+
+    private static final int CAMERA_REQUEST = 1888;
+    private static final int RESULT_LOAD_IMG = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +66,28 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
     public void procesarFuente(int fuente) {
         if (fuente == SelectorFuenteFotoDialog.FUENTE_CAMARA)
         {
-            //TODO
+            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            if(cameraIntent.resolveActivity(getPackageManager()) != null)
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+            else
+                //TODO dialogo no hay camara
+            ;
         }
         else if (fuente == SelectorFuenteFotoDialog.FUENTE_GALERIA)
         {
-
+            Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            if(galleryIntent.resolveActivity(getPackageManager()) != null)
+                startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
+            else
+                //TODO dialogo no hay galeria
+            ;
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i("FOTO", ""+requestCode);
+        Log.i("FOTO", ""+resultCode);
+    }
+
 }
