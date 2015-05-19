@@ -2,6 +2,7 @@ package org.das.das_grupo;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -25,11 +26,16 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
     private DrawerLayout ellayout;
     private String[] opciones;
     private Fragment elfragmento = null;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private CharSequence mTitle;
+    private CharSequence mDrawerTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mTitle = mDrawerTitle = getTitle();
 
         if (GestorUsuarios.getGestorUsuarios().getNombreUsuario(MainActivity.this) == null)
         {
@@ -43,7 +49,6 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
                 android.R.layout.simple_list_item_1, opciones);
         lalista.setAdapter(adapter);
         ellayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
 
         lalista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -97,9 +102,31 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
                     ellayout.closeDrawer(lalista);
                 }
             }
-
-
         });
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,
+                ellayout,
+                R.drawable.ic_drawer,
+                R.string.drawer_open,
+                R.string.drawer_close)
+        {
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                invalidateOptionsMenu();
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getSupportActionBar().setTitle(mDrawerTitle);
+                invalidateOptionsMenu();
+            }
+        };
+
+        ellayout.setDrawerListener(mDrawerToggle);
     }
 
     public void cerrarSesion() {
@@ -138,6 +165,10 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
             return true;
         }
 
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -171,12 +202,10 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
         }
     }
 
-    @Override
     public void onFragmentInteraction(Uri uri) {
 
     }
 
-    @Override
     public void onEtiquetaSelected(int id) {
         Bundle args = new Bundle();
         elfragmento = new ListarHistoriasFragment();
@@ -187,7 +216,6 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
         elgestorfragmentos.beginTransaction().replace(R.id.contenido, elfragmento).commit();
     }
 
-    @Override
     public void onHistoriaSelected(int id) {
         Toast.makeText(MainActivity.this,String.valueOf(id),Toast.LENGTH_SHORT).show();
         Intent i = new Intent(MainActivity.this, VerHistoriaActivity.class);
