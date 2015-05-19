@@ -23,27 +23,23 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
-
-            <!--
-                <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login" >
+            android:label="@string/app_name" ><!-- android:label="@string/title_activity_login" >-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".SignInActivity"
-            android:label="@string/title_activity_regist" >
+            android:label="@string/title_activity_regist"
+            android:launchMode="singleTask"
+            android:parentActivityName=".LoginActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.das.das_grupo.LoginActivity" />
         </activity>
 
         <receiver
@@ -60,11 +56,21 @@
 
         <activity
             android:name=".NuevaHistoriaActivity"
-            android:label="@string/title_activity_nueva_historia" >
+            android:label="@string/title_activity_nueva_historia"
+            android:launchMode="singleTask"
+            android:parentActivityName=".LoginActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.das.das_grupo.MainActivity" />
         </activity>
         <activity
             android:name=".VerHistoriaActivity"
-            android:label="@string/title_activity_ver_historia" >
+            android:label="@string/title_activity_ver_historia"
+            android:launchMode="singleTask"
+            android:parentActivityName=".LoginActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.das.das_grupo.MainActivity" />
         </activity>
 
 
