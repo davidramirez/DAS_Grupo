@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="nav_options">
+        <item>Last stories</item>
+        <item>My stories</item>
+        <item>Stories by tags</item>
+        <item>Best stories</item>
+        <item>Preferences</item>
+        <item>Log out</item>
+    </string-array>
+</resources>

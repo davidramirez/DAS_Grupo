@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">DAS_Grupo</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_login">Log in</string>
+    <string name="nUsuario">Username</string>
+    <string name="contrasena">Password</string>
+    <string name="registrarse">Sign up</string>
+    <string name="login">Log in</string>
+    <string name="want_notifications">Do you want to receive notifications?</string>
+    <string name="errorLogin">Username or password are incorrect.</string>
+    <string name="title_activity_regist">Sign up</string>
+    <string name="cancelar">Cancel</string>
+    <string name="errorReg">There was an error or you username is already taken.</string>
+    <string name="nombre_vacio">Your username is needed.</string>
+    <string name="pass_vacia">Your password is needed.</string>
+    <string name="title_activity_nueva_historia">New story</string>
+    <string name="title_activity_ver_historia">See story</string>
+    <string name="drawer_open">Navigation Drawer opened</string>
+    <string name="drawer_close">Navigation Drawer closed</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="titulo">Title</string>
+    <string name="addimagen">Add image</string>
+    <string name="descripcion">Description</string>
+    <string name="etiquetas">Tags (separated by commas)</string>
+    <string name="crearhistoria">Create story</string>
+    <string name="ups">Ups</string>
+    <string name="aceptar">Accept</string>
+    <string name="camposincorrectos">Fill in all the obligatory fields.</string>
+    <string name="aviso">Warning</string>
+    <string name="cerrarSesion">Do you want to log out?</string>
+    <string name="seleccionfuentefoto">How de oy u want to obtain the image?</string>
+    <string name="camara">Camera</string>
+    <string name="galeria">Gallery</string>
+    <string name="nofotos">Add a image to continue.</string>
+    <string name="actionNuevaHistoria">Write new story</string>
+    <string name="contrasenasNoCoinciden">The password don't match or the old password is incorrect.</string>
+</resources>
