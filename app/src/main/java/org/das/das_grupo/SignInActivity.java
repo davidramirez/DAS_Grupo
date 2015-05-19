@@ -3,6 +3,7 @@ package org.das.das_grupo;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,13 +53,11 @@ public class SignInActivity extends ActionBarActivity {
                 nomb = String.valueOf(nombre.getText());
                 contra = String.valueOf(contrasena.getText());
 
-                if(nomb.matches("") || contra.matches(""))
-                {
-                    Toast.makeText(SignInActivity.this,getString(R.string.camposNoInformados), Toast.LENGTH_SHORT).show();
-                }
-                else {
-
-
+                if (contra.matches("")) {
+                    Toast.makeText(SignInActivity.this,getString(R.string.nombre_vacio), Toast.LENGTH_SHORT).show();
+                } else if(contra.matches("")) {
+                    Toast.makeText(SignInActivity.this,getString(R.string.pass_vacia), Toast.LENGTH_SHORT).show();
+                } else {
                     new AsyncTask<Void, Void, Boolean>() {
                         @Override
                         protected Boolean doInBackground(Void... params) {
@@ -101,5 +100,10 @@ public class SignInActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

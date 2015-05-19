@@ -54,50 +54,46 @@ public class LoginActivity extends ActionBarActivity {
         usuario = (EditText) findViewById(R.id.usuarioLog);
         contrasena = (EditText) findViewById(R.id.contrasenaLog);
 
-
         btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 nombre = String.valueOf(usuario.getText());
                 contra = String.valueOf(contrasena.getText());
 
-                if (nombre.matches("") || contra.matches(""))
-                {
-                    Toast.makeText(LoginActivity.this,getString(R.string.camposNoInformados),Toast.LENGTH_SHORT).show();
+                if (nombre.matches("")) {
+                    Toast.makeText(LoginActivity.this,getString(R.string.nombre_vacio),Toast.LENGTH_SHORT).show();
+                } else if (contra.matches("")) {
+                    Toast.makeText(LoginActivity.this,getString(R.string.pass_vacia),Toast.LENGTH_SHORT).show();
+                } else {
+                    new AsyncTask<Void, Void, Integer>() {
+                        @Override
+                        protected Integer doInBackground(Void... params) {
+                            getGCM();
+
+                            id = GestorConexiones.getGestorConexiones().logInUser(nombre, contra);
+                            GestorConexiones.getGestorConexiones().singInGCM(id, contra, regid);
+                            return id;
+                        }
+
+                        @Override
+                        protected void onPostExecute(Integer id) {
+                            super.onPostExecute(id);
+
+                            if (id != 0) {
+                                GestorUsuarios.getGestorUsuarios().guardarContrasenaUsuario(LoginActivity.this, contra);
+                                GestorUsuarios.getGestorUsuarios().guardarNombreUsuario(LoginActivity.this, nombre);
+                                GestorUsuarios.getGestorUsuarios().guardarIdUsuario(LoginActivity.this, id.toString());
+                                GestorUsuarios.getGestorUsuarios().guardarGcmIdUsuario(LoginActivity.this, regid);
+                                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(i);
+                                finish();
+
+                            } else {
+                                Toast.makeText(LoginActivity.this, getString(R.string.errorLogin), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }.execute(null, null, null);
                 }
-
-                new AsyncTask<Void, Void, Integer>() {
-                    @Override
-                    protected Integer doInBackground(Void... params) {
-                        getGCM();
-
-                        id =  GestorConexiones.getGestorConexiones().logInUser(nombre,contra);
-                        GestorConexiones.getGestorConexiones().singInGCM(id,contra,regid);
-                        return id;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Integer id) {
-                        super.onPostExecute(id);
-
-                        if(id != 0)
-                        {
-                            GestorUsuarios.getGestorUsuarios().guardarContrasenaUsuario(LoginActivity.this, contra);
-                            GestorUsuarios.getGestorUsuarios().guardarNombreUsuario(LoginActivity.this, nombre);
-                            GestorUsuarios.getGestorUsuarios().guardarIdUsuario(LoginActivity.this, id.toString());
-                            GestorUsuarios.getGestorUsuarios().guardarGcmIdUsuario(LoginActivity.this,regid);
-                            Intent i = new Intent(LoginActivity.this,MainActivity.class);
-                            startActivity(i);
-                            finish();
-
-                        }
-                        else
-                        {
-                            Toast.makeText(LoginActivity.this,getString(R.string.errorLogin),Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }.execute(null,null,null);
-
             }
         });
 

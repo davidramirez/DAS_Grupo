@@ -4,17 +4,21 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">LoginActivity</string>
-    <string name="nUsuario">Nombre Usuario</string>
+    <string name="nUsuario">Nombre de usuario</string>
     <string name="contrasena">Contraseña</string>
     <string name="registrarse">Registrarse</string>
-    <string name="login">Log In</string>
-    <string name="errorLogin">El usuario o la contraseña son erroneos</string>
+    <string name="login">Conectar</string>
+    <string name="want_notifications">¿Desea recibir notificaciones?</string>
+    <string name="errorLogin">El usuario o la contraseña son incorrectos.</string>
     <string name="title_activity_regist">RegistActivity</string>
     <string name="cancelar">Cancelar</string>
-    <string name="errorReg">Ha ocurrido un error</string>
-    <string name="camposNoInformados">El nombre y la contraseña deben ser informados</string>
+    <string name="errorReg">Ha ocurrido un error o el nombre escogido ya está en uso.</string>
+    <string name="nombre_vacio">Es necesario introducir un nombre de usuario.</string>
+    <string name="pass_vacia">Es necesario introducir una contraseña.</string>
     <string name="title_activity_nueva_historia">NuevaHistoriaActivity</string>
     <string name="title_activity_ver_historia">VerHistoriaActivity</string>
+    <string name="drawer_open">Navigation Drawer abierto</string>
+    <string name="drawer_close">Navigation Drawer cerrado</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

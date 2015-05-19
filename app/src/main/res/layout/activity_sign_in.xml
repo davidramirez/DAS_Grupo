@@ -12,11 +12,11 @@
         android:layout_height="fill_parent"
         android:orientation="vertical">
 
-        <EditText android:hint="@string/nUsuario" android:layout_width="wrap_content"
+        <EditText android:hint="@string/nUsuario" android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id = "@+id/usuarioSing"/>
 
-        <EditText android:hint="@string/contrasena" android:layout_width="wrap_content"
+        <EditText android:hint="@string/contrasena" android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:id = "@+id/contrasenaSing"/>
@@ -24,7 +24,7 @@
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Recibir Avisos"
+            android:text="@string/want_notifications"
             android:id="@+id/checkAvisosSing" />
 
         <Button
