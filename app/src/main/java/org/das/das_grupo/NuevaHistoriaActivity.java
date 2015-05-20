@@ -30,19 +30,25 @@ import org.das.das_grupo.packDialogos.AlertaCampoIncorrectoDialog;
 import org.das.das_grupo.packDialogos.NoFotosDialog;
 import org.das.das_grupo.packDialogos.SelectorFuenteFotoDialog;
 import org.das.das_grupo.packGestores.GestorConexiones;
+import org.das.das_grupo.packGestores.GestorUsuarios;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 
 public class NuevaHistoriaActivity extends ActionBarActivity implements SelectorFuenteFotoDialog.ListenerFuenteFoto {
 
-    Button addfoto;
-    Button addhistoria;
+    private Button addfoto;
+    private Button addhistoria;
 
     private static final int CAMERA_REQUEST = 1888;
     private static final int RESULT_LOAD_IMG = 1;
@@ -53,7 +59,7 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
     private TextView etiquetas;
 
     //Paths de las fotos elegidas, guardadas todas en un path de la aplicacion
-    private String[] fotos;
+    private ArrayList<String> fotos;
 
     //fotos codificadas
     private String[] encodedImages;
@@ -66,6 +72,7 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nueva_historia);
 
+        fotos = new ArrayList<String>();
         progreso = new ProgressDialog(this);
         progreso.setCancelable(false);
 
@@ -97,7 +104,7 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
                     AlertaCampoIncorrectoDialog dialogo = new AlertaCampoIncorrectoDialog();
                     dialogo.show(getSupportFragmentManager(), null);
                 }
-                else if (fotos.length == 0)
+                else if (fotos.size() == 0)
                 {
                     //Si no hay fotos seleccionadas
                     NoFotosDialog diag = new NoFotosDialog();
@@ -107,12 +114,16 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
                 {
                     //Preparar los parametros la peticion
                     RequestParams params = new RequestParams();
+                    params.put("id", GestorUsuarios.getGestorUsuarios().getIdUsuario(getApplicationContext()));
                     params.put("titulo", tit);
                     params.put("descripcion", desc);
                     if(etiq.length != 0)
                         params.put("etiquetas", etiq);
                     setStringArrayEncodedImages();
                     params.put("fotos", encodedImages);
+
+                    //Hacer la peticion
+                    subirHistoria(params);
                 }
             }
         });
@@ -122,7 +133,9 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
     private void setStringArrayEncodedImages() {
 
         progreso.setMessage(getString(R.string.preparandoImagenes));
-        progreso.setMax(fotos.length);
+        progreso.setMax(fotos.size());
+        progreso.show();
+        Log.i("FOTO", "Codificando imagenes");
 
         AsyncTask tarea = new AsyncTask<Void, Void, String>() {
 
@@ -135,18 +148,20 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
                 BitmapFactory.Options options = null;
                 options = new BitmapFactory.Options();
                 options.inSampleSize = 3;
+                encodedImages = new String[fotos.size()];
 
-                for(int i = 0; i < fotos.length; i++)
+                for(int i = 0; i < fotos.size(); i++)
                 {
                     progreso.setProgress(i+1);
 
-                    Bitmap bitmap = BitmapFactory.decodeFile(fotos[i], options);
+                    Bitmap bitmap = BitmapFactory.decodeFile(fotos.get(i), options);
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     // Must compress the Image to reduce image size to make upload easy
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
                     byte[] byte_arr = stream.toByteArray();
                     // Encode Image to String
                     encodedImages[i] = Base64.encodeToString(byte_arr, 0);
+                    Log.i("FOTO", encodedImages[i]);
                 }
 
                 return "";
@@ -161,6 +176,7 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
 
         try {
             tarea.get();
+            Log.i("FOTO", "tarea lista");
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -190,6 +206,8 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
         return super.onOptionsItemSelected(item);
     }
 
+    private File imagen;
+
     @Override
     public void procesarFuente(int fuente) {
         if (fuente == SelectorFuenteFotoDialog.FUENTE_CAMARA)
@@ -201,7 +219,7 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
                 String imageFileName = "JPEG_" + timeStamp + "_";
                 File storageDir = Environment.getExternalStoragePublicDirectory(
                         Environment.DIRECTORY_PICTURES);
-                File imagen = null;
+                 imagen = null;
                 try {
                     imagen = File.createTempFile(
                             imageFileName,  /* prefix */
@@ -236,23 +254,83 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.i("FOTO", ""+requestCode);
         Log.i("FOTO", ""+resultCode);
+        //Si la fuente era la camara
+        if(requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+            //TODO comprimir imagen
+            //Añadir la ruta del archivo a fotos
+            fotos.add(imagen.getAbsolutePath());
+            //Y volver a mostrar las imagenes
+            showImages();
+        }
+        //Si la fuente era la galería
+        else if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK) {
+            Uri imagenElegida = data.getData();
+            InputStream is = null;
+            try {
+                is = getContentResolver().openInputStream(imagenElegida);
+                Bitmap bitmap = BitmapFactory.decodeStream(is);
+
+                //Guardar la imagen de la galeria en un directorio propio
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                String imageFileName = "JPEG_" + timeStamp + "_";
+                File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                    imagen = File.createTempFile(
+                            imageFileName,  /* prefix */
+                            ".jpg",         /* suffix */
+                            storageDir      /* directory */
+                    );
+                //TODO Comprimir imagen
+                FileOutputStream out = new FileOutputStream(imagen);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, out);
+
+                fotos.add(imagen.getAbsolutePath());
+                showImages();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        else
+            Toast.makeText(getApplicationContext(), getString(R.string.imagenResError), Toast.LENGTH_LONG).show();
+    }
+
+    private void showImages() {
+        Log.i("FOTO","Ahora se deberían enseñar las imagenes");
+        Log.i("FOTO", fotos.toString());
     }
 
 
     public void subirHistoria(RequestParams parametros)
     {
         AsyncHttpClient cliente = new AsyncHttpClient();
-
-        cliente.post(GestorConexiones.WEB_SERVER_URL + "/", parametros, new AsyncHttpResponseHandler() {
+        Log.i("FOTO", "Subiendo historia al servidor");
+        cliente.post(GestorConexiones.WEB_SERVER_URL + "/subir_historia.php", parametros, new AsyncHttpResponseHandler() {
             @Override
-            public void onSuccess(int i, Header[] headers, byte[] bytes) {
-                Toast.makeText(getApplicationContext(),getString(R.string.exitoHistoria), Toast.LENGTH_LONG).show();
+            public void onSuccess(int i, Header[] headers, byte[] responseBody) {
+                Toast.makeText(getApplicationContext(), getString(R.string.exitoHistoria), Toast.LENGTH_LONG).show();
+                progreso.cancel();
+                Log.i("FOTO", "exito subida, codigo " + i);
+                try {
+                    String respuesta = new String(responseBody, "UTF-8");
+                Log.i("FOTO", "respuesta: "+respuesta);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                finalizarEdicion();
             }
 
             @Override
             public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-                Toast.makeText(getApplicationContext(),getString(R.string.errorHistoria), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.errorHistoria), Toast.LENGTH_LONG).show();
+                progreso.cancel();
+                Log.i("FOTO", "fallo subida, codigo "+i);
             }
         });
+    }
+
+    private void finalizarEdicion() {
+        this.finish();
     }
 }
