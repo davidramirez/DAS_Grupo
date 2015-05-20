@@ -17,7 +17,7 @@
 		if (!$conn->query($query))
 			die("false");
 
-		foreach ($_GET["etiquetas"] as &$etiqueta) {
+		foreach ($_POST["etiquetas"] as &$etiqueta) {
 			$query = "SELECT id FROM etiqueta WHERE nombre = '$etiqueta'"; // checking the existence of the tag.
 			$sql = $conn->query($query);
 			if (!$sql->fetch_assoc()) { // if does not exist, we create it.

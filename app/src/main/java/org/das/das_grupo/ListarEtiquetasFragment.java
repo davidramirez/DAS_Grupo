@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,22 +67,23 @@ public class ListarEtiquetasFragment extends Fragment {
     }
 
     private void fillDisplay() {
+        display = new ArrayList<String>(); // si no parece duplicarse la primera etiqueta
 
-    if (etiquetas.size() != 0) {
-        for (Etiqueta aux : etiquetas) {
-            display.add(aux.getNombre() + "\t(" + aux.getCantidad() + ")");
+        if (etiquetas.size() != 0) {
+            for (Etiqueta aux : etiquetas) {
+                display.add(aux.getNombre() + "\t(" + aux.getCantidad() + ")");
+            }
         }
-    }
 
         arrayAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),android.R.layout.simple_list_item_1,display){
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View view=super.getView(position, convertView, parent);
-            TextView text= (TextView) view.findViewById(android.R.id.text1);
-            text.setTextColor(Color.BLACK);
-            return view;
-        }
-    };
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view=super.getView(position, convertView, parent);
+                TextView text= (TextView) view.findViewById(android.R.id.text1);
+                text.setTextColor(Color.BLACK);
+                return view;
+            }
+        };
         listview.setAdapter(arrayAdapter);
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

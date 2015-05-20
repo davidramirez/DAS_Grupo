@@ -131,7 +131,7 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
             public void onClick(View v) {
                 String tit = titulo.getText().toString();
                 String desc = descripcion.getText().toString();
-                String[] etiq = descripcion.getText().toString().split(",");
+                String[] etiq = etiquetas.getText().toString().split(",");
 
                 //si alguno de los campos obligatorios esta vacio
                 if(tit.equals("") || desc.equals(""))
@@ -152,8 +152,11 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
                     params.put("id", GestorUsuarios.getGestorUsuarios().getIdUsuario(getApplicationContext()));
                     params.put("titulo", tit);
                     params.put("descripcion", desc);
-                    if(etiq.length != 0)
+                    if(etiq.length != 0) {
+                        for (int i = 0; i < etiq.length; i++)
+                            etiq[i] = etiq[i].trim();
                         params.put("etiquetas", etiq);
+                    }
                     setStringArrayEncodedImages();
                     params.put("fotos", encodedImages);
 
