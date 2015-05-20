@@ -31,6 +31,7 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
     private CharSequence mTitle;
     private CharSequence mDrawerTitle;
 
+    private int opcionPulsada;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +55,7 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
         lalista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                opcionPulsada = position;
                 //El fragmento que neceistemos para
                 //la funcionalidad elegida ira aqui
                 elfragmento = null;
@@ -120,6 +122,7 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 invalidateOptionsMenu();
+                getSupportActionBar().setTitle(opciones[opcionPulsada]);
             }
 
             public void onDrawerOpened(View drawerView) {
@@ -130,7 +133,17 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
         };
 
         ellayout.setDrawerListener(mDrawerToggle);
+
+        //Comprobar si había un estado anterior
+        if(savedInstanceState != null)
+            opcionPulsada = savedInstanceState.getInt("opcionpulsada");
+        else
+            opcionPulsada = 0;
+
+        //Cargar el fragment correspondiente simulando un click
+        lalista.performItemClick(lalista.getAdapter().getView(opcionPulsada, null, null), opcionPulsada, lalista.getAdapter().getItemId(opcionPulsada));
     }
+
 
     public void cerrarSesion() {
         //Eliminamos el id del usuario de la BD,
@@ -187,6 +200,9 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
             else
                 savedInstanceState.putCharSequence("titulo", "");
         }
+
+        //guardar el fragmento pulsado
+        savedInstanceState.putInt("opcionpulsada", opcionPulsada);
     }
 
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
