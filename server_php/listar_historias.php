@@ -28,7 +28,10 @@
 				break;
 		}
 
-		$query = "SELECT historia.id as id, historia.titulo as titulo, usuarios.nombre as nombre, historia.fecha as fecha FROM usuarios, historia, etiquetas WHERE usuarios.id = historia.id_us AND historia.id = etiquetas.id_hist $where $limit";
+		if (accion == "etiqueta")
+			$query = "SELECT historia.id as id, historia.titulo as titulo, usuarios.nombre as nombre, historia.fecha as fecha FROM usuarios, historia, etiquetas WHERE WHERE historia.id_us = usuarios.id AND historia.id = etiquetas.id_hist $where ORDER BY historia.id DESC $limit";
+		else
+			$query = "SELECT historia.id as id, historia.titulo as titulo, usuarios.nombre as nombre, historia.fecha as fecha FROM usuarios, historia WHERE usuarios.id = historia.id_us $where ORDER BY historia.id DESC $limit";
 		$sql = $conn->query($query);
 		$historias = array();
 
