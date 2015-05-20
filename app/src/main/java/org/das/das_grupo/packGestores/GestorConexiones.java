@@ -37,7 +37,7 @@ public class GestorConexiones {
     private static GestorConexiones mGestor = new GestorConexiones();
 
     //URL base para las conexiones al servidor web
-    public final static String WEB_SERVER_URL ="http://galan.ehu.es/dramirez003/DAS/grupo";
+    public final static String WEB_SERVER_URL ="http://david-net.softether.net:8080";//"http://galan.ehu.es/dramirez003/DAS/grupo";
 
     private GestorConexiones()
     {
