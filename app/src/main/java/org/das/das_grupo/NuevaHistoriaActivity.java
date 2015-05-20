@@ -72,13 +72,24 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nueva_historia);
 
-        fotos = new ArrayList<String>();
-        progreso = new ProgressDialog(this);
-        progreso.setCancelable(false);
-
         titulo = (TextView) findViewById(R.id.titulo);
         descripcion = (TextView) findViewById(R.id.descripcion);
         etiquetas = (TextView) findViewById(R.id.etiquetas);
+
+        //Cargar estado anterior si habia
+        if(savedInstanceState != null){
+            titulo.setText(savedInstanceState.getString("titulo"));
+            descripcion.setText(savedInstanceState.getString("descripcion"));
+            etiquetas.setText(savedInstanceState.getString("etiquetas"));
+
+            fotos = savedInstanceState.getStringArrayList("fotos");
+        }
+        else{
+            fotos = new ArrayList<String>();
+        }
+        progreso = new ProgressDialog(this);
+        progreso.setCancelable(false);
+
 
         addfoto = (Button) findViewById(R.id.addimagen);
         addfoto.setOnClickListener(new View.OnClickListener() {
@@ -313,14 +324,12 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
                 Log.i("FOTO", "exito subida, codigo " + i);
                 try {
                     String respuesta = new String(responseBody, "UTF-8");
-                    Log.i("FOTO", "respuesta: "+respuesta);
+                    Log.i("FOTO", "respuesta: " + respuesta);
 
-                    if(respuesta.equalsIgnoreCase("true"))
-                    {
+                    if (respuesta.equalsIgnoreCase("true")) {
                         Toast.makeText(getApplicationContext(), getString(R.string.exitoHistoria), Toast.LENGTH_LONG).show();
                         finalizarEdicion();
-                    }
-                    else
+                    } else
                         Toast.makeText(getApplicationContext(), getString(R.string.errorHistoria), Toast.LENGTH_LONG).show();
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
@@ -332,10 +341,10 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
             public void onFailure(int i, Header[] headers, byte[] responseBody, Throwable throwable) {
                 Toast.makeText(getApplicationContext(), getString(R.string.errorHistoria), Toast.LENGTH_LONG).show();
                 progreso.cancel();
-                Log.i("FOTO", "fallo subida, codigo "+i);
+                Log.i("FOTO", "fallo subida, codigo " + i);
                 try {
                     String respuesta = new String(responseBody, "UTF-8");
-                    Log.i("FOTO", "respuesta del servidor: "+respuesta);
+                    Log.i("FOTO", "respuesta del servidor: " + respuesta);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -345,5 +354,15 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
 
     private void finalizarEdicion() {
         this.finish();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle elBundle){
+
+        elBundle.putString("titulo", titulo.getText().toString());
+        elBundle.putString("descripcion", descripcion.getText().toString());
+        elBundle.putString("etiquetas", etiquetas.getText().toString());
+
+        elBundle.putStringArrayList("fotos", fotos);
     }
 }
