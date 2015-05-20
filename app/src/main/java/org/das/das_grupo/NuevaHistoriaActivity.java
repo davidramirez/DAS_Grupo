@@ -309,23 +309,36 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
         cliente.post(GestorConexiones.WEB_SERVER_URL + "/subir_historia.php", parametros, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Header[] headers, byte[] responseBody) {
-                Toast.makeText(getApplicationContext(), getString(R.string.exitoHistoria), Toast.LENGTH_LONG).show();
                 progreso.cancel();
                 Log.i("FOTO", "exito subida, codigo " + i);
                 try {
                     String respuesta = new String(responseBody, "UTF-8");
-                Log.i("FOTO", "respuesta: "+respuesta);
+                    Log.i("FOTO", "respuesta: "+respuesta);
+
+                    if(respuesta.equalsIgnoreCase("true"))
+                    {
+                        Toast.makeText(getApplicationContext(), getString(R.string.exitoHistoria), Toast.LENGTH_LONG).show();
+                        finalizarEdicion();
+                    }
+                    else
+                        Toast.makeText(getApplicationContext(), getString(R.string.errorHistoria), Toast.LENGTH_LONG).show();
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-                finalizarEdicion();
+
             }
 
             @Override
-            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+            public void onFailure(int i, Header[] headers, byte[] responseBody, Throwable throwable) {
                 Toast.makeText(getApplicationContext(), getString(R.string.errorHistoria), Toast.LENGTH_LONG).show();
                 progreso.cancel();
                 Log.i("FOTO", "fallo subida, codigo "+i);
+                try {
+                    String respuesta = new String(responseBody, "UTF-8");
+                    Log.i("FOTO", "respuesta del servidor: "+respuesta);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
