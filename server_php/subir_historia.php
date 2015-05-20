@@ -32,9 +32,9 @@
 		}
 
 		foreach ($_POST["fotos"] as &$foto) {
-		    $path = $id_us . "_" . date('Ymd_His') . ".jpg";
+		    $path = $id . "_" . date('Ymd_His') . ".jpg";
             $binary = base64_decode($foto);
-            header('Content-Type: bitmap; charset=utf-8');
+            header('Content-Type: jpg; charset=utf-8');
             $file = fopen('imagenes/' . $path, 'wb');
             fwrite($file, $binary);
             fclose($file);
