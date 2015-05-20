@@ -12,55 +12,59 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp" >
 
-        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/Tabla"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:stretchColumns="1" >
+            android:orientation="vertical">
 
-            <TableRow
-                android:id="@+id/Cabecera"
+
+
+            <TextView
+                android:id="@+id/titItem"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:textColor="#000000"
+                android:textSize="20sp" >
+            </TextView>
 
-                <TextView
-                    android:id="@+id/titItem"
-                    android:layout_width="fill_parent"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="center_vertical"
-                    android:textColor="#000000"
-                    android:textSize="20sp" >
-                </TextView>
 
-            </TableRow>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <TableRow
-                android:id="@+id/autor_fecha"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
 
                 <TextView
                     android:id="@+id/autorItem"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:textSize="12sp"
                     android:textColor="#0000FF"
+                    android:layout_gravity="left"
                     android:text="" >
                 </TextView>
 
                 <TextView
                     android:id="@+id/fechaItem"
                     android:layout_width="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_height="wrap_content"
                     android:text=""
+                    android:layout_gravity="right"
                     android:textColor="#000000"
-                    android:textSize="12sp" >
+                    android:textSize="12sp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="10dp"
+                    >
                 </TextView>
 
-            </TableRow>
+            </RelativeLayout>
 
-        </TableLayout>
 
+        </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>
