@@ -42,4 +42,6 @@
     <string name="exitoHistoria">La historia se ha guardado correctamente</string>
     <string name="errorGaleria">No se puede acceder a la galeriá de fotos</string>
     <string name="errorCamara">No se puede acceder a la cámara</string>
+    <string name="preparandoImagenes">Preparando las imágenes para el envío</string>
+    <string name="subiendoHistoria">Guardando la historia en el servidor</string>
 </resources>
