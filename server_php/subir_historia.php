@@ -35,7 +35,7 @@
 		    $path = $id . "_" . date('Ymd_His') . ".jpg";
             $binary = base64_decode($foto);
             header('Content-Type: jpg; charset=utf-8');
-            $file = fopen('imagenes/' . $path, 'wb');
+            $file = fopen('imagenes/' . $path, 'wb') or die("No file saved");
             fwrite($file, $binary);
             fclose($file);
 
