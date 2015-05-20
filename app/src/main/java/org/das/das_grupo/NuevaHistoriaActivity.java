@@ -1,6 +1,5 @@
 package org.das.das_grupo;
 
-import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,11 +17,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.Button;
-import android.widget.ImageSwitcher;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewSwitcher;
 
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -61,7 +57,6 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
     private TextView titulo;
     private TextView descripcion;
     private TextView etiquetas;
-    private ImageSwitcher foto;
 
     //Paths de las fotos elegidas, guardadas todas en un path de la aplicacion
     private ArrayList<String> fotos;
@@ -118,6 +113,21 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
                 return myView;
             }
         });
+
+        //Cargar estado anterior si habia
+        if(savedInstanceState != null){
+            titulo.setText(savedInstanceState.getString("titulo"));
+            descripcion.setText(savedInstanceState.getString("descripcion"));
+            etiquetas.setText(savedInstanceState.getString("etiquetas"));
+
+            fotos = savedInstanceState.getStringArrayList("fotos");
+        }
+        else{
+            fotos = new ArrayList<String>();
+        }
+        progreso = new ProgressDialog(this);
+        progreso.setCancelable(false);
+
 
         addfoto = (Button) findViewById(R.id.addimagen);
         addfoto.setOnClickListener(new View.OnClickListener() {
@@ -258,7 +268,7 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
                 String imageFileName = "JPEG_" + timeStamp + "_";
                 File storageDir = Environment.getExternalStoragePublicDirectory(
                         Environment.DIRECTORY_PICTURES);
-                imagen = null;
+                 imagen = null;
                 try {
                     imagen = File.createTempFile(
                             imageFileName,  /* prefix */
@@ -313,11 +323,11 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 String imageFileName = "JPEG_" + timeStamp + "_";
                 File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                imagen = File.createTempFile(
-                        imageFileName,  /* prefix */
-                        ".jpg",         /* suffix */
-                        storageDir      /* directory */
-                );
+                    imagen = File.createTempFile(
+                            imageFileName,  /* prefix */
+                            ".jpg",         /* suffix */
+                            storageDir      /* directory */
+                    );
                 //TODO Comprimir imagen
                 FileOutputStream out = new FileOutputStream(imagen);
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 50, out);
@@ -329,7 +339,7 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            showImages();
+
         }
         else
             Toast.makeText(getApplicationContext(), getString(R.string.imagenResError), Toast.LENGTH_LONG).show();
@@ -338,26 +348,9 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
     private void showImages() {
         Log.i("FOTO","Ahora se deberían enseñar las imagenes");
         Log.i("FOTO", fotos.toString());
-        Uri uri = null;
-        uris = new ArrayList<Uri>();
-        if(fotos.size() != 0)
-        { for (int i = 0 ; i < fotos.size(); i++){
-            uri = Uri.fromFile(new File(fotos.get(i)));
-            uris.add(uri);
-        }
-        }
-        foto.setImageURI(uri);
     }
 
-    private void left() {
-        if (fotoIndex - 1 >= 0)
-            foto.setImageURI(uris.get(--fotoIndex));
-    }
 
-    private void right() {
-        if (fotoIndex + 1 < uris.size() )
-            foto.setImageURI(uris.get(++fotoIndex));
-    }
     public void subirHistoria(RequestParams parametros)
     {
         AsyncHttpClient cliente = new AsyncHttpClient();
@@ -369,12 +362,14 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
                 Log.i("FOTO", "exito subida, codigo " + i);
                 try {
                     String respuesta = new String(responseBody, "UTF-8");
-                    Log.i("FOTO", "respuesta: " + respuesta);
+                    Log.i("FOTO", "respuesta: "+respuesta);
 
-                    if (respuesta.equalsIgnoreCase("true")) {
+                    if(respuesta.equalsIgnoreCase("true"))
+                    {
                         Toast.makeText(getApplicationContext(), getString(R.string.exitoHistoria), Toast.LENGTH_LONG).show();
                         finalizarEdicion();
-                    } else
+                    }
+                    else
                         Toast.makeText(getApplicationContext(), getString(R.string.errorHistoria), Toast.LENGTH_LONG).show();
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
@@ -386,10 +381,10 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
             public void onFailure(int i, Header[] headers, byte[] responseBody, Throwable throwable) {
                 Toast.makeText(getApplicationContext(), getString(R.string.errorHistoria), Toast.LENGTH_LONG).show();
                 progreso.cancel();
-                Log.i("FOTO", "fallo subida, codigo " + i);
+                Log.i("FOTO", "fallo subida, codigo "+i);
                 try {
                     String respuesta = new String(responseBody, "UTF-8");
-                    Log.i("FOTO", "respuesta del servidor: " + respuesta);
+                    Log.i("FOTO", "respuesta del servidor: "+respuesta);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
