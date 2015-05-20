@@ -27,7 +27,6 @@
 			}
 
 			$query = "INSERT INTO etiquetas (id_etiq, id_hist) VALUES ((SELECT id FROM etiqueta WHERE nombre = '$etiqueta'), (SELECT id FROM historia WHERE id_us = $id AND titulo = '$titulo' AND descripcion = '$descripcion'))"; // inserting story with the tag.
-			echo $query;
 			if (!$conn->query($query))
 				die("false");
 		}
