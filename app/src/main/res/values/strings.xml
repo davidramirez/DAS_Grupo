@@ -45,4 +45,6 @@
     <string name="preparandoImagenes">Preparando las imágenes para el envío</string>
     <string name="subiendoHistoria">Guardando la historia en el servidor</string>
     <string name="imagenResError">Fallo al procesar la imagen</string>
+    <string name="izquierda"><![CDATA[<-]]></string>
+    <string name="derecha"><![CDATA[->]]></string>
 </resources>

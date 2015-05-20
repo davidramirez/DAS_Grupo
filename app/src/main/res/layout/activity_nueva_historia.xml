@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -31,19 +31,34 @@
             android:id="@+id/addimagen"
             android:layout_gravity="center_horizontal" />
 
-        <HorizontalScrollView
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/horizontalScrollView" >
+            android:layout_height="match_parent"
+            android:id="@+id/fotos">
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/fotos">
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/izquierda"
+                android:id="@+id/buttonLeftNH" />
 
-            </LinearLayout>
-        </HorizontalScrollView>
+            <ImageSwitcher
+                android:layout_width="0dp"
+                android:layout_height="300dp"
+                android:layout_weight="4"
+                android:id="@+id/foto" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/derecha"
+                android:id="@+id/buttonRightNH" />
+        </LinearLayout>
 
         <EditText
             android:layout_width="match_parent"
@@ -71,4 +86,4 @@
             android:layout_gravity="center_horizontal" />
 
     </LinearLayout>
-</RelativeLayout>
+</ScrollView>

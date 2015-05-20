@@ -1,5 +1,6 @@
 package org.das.das_grupo;
 
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,8 +18,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.Button;
+import android.widget.ImageSwitcher;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -64,6 +68,11 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
     //fotos codificadas
     private String[] encodedImages;
 
+    //Elementos de ImageSwitcher
+    private Button left,right;
+    private ArrayList<Uri> uris;
+    private ImageSwitcher foto;
+    private int index = 0;
 
     //Dialogo de progreso
     ProgressDialog progreso;
@@ -72,25 +81,41 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nueva_historia);
 
+        fotos = new ArrayList<String>();
+        progreso = new ProgressDialog(this);
+        progreso.setCancelable(false);
+
         titulo = (TextView) findViewById(R.id.titulo);
         descripcion = (TextView) findViewById(R.id.descripcion);
         etiquetas = (TextView) findViewById(R.id.etiquetas);
 
-        //Cargar estado anterior si habia
-        if(savedInstanceState != null){
-            titulo.setText(savedInstanceState.getString("titulo"));
-            descripcion.setText(savedInstanceState.getString("descripcion"));
-            etiquetas.setText(savedInstanceState.getString("etiquetas"));
+        left = (Button) findViewById(R.id.buttonLeftNH);
+        left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                left();
+            }
+        });
 
-            fotos = savedInstanceState.getStringArrayList("fotos");
-        }
-        else{
-            fotos = new ArrayList<String>();
-        }
-        progreso = new ProgressDialog(this);
-        progreso.setCancelable(false);
+        right = (Button) findViewById(R.id.buttonRightNH);
+        right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                right();
+            }
+        });
 
-
+        foto = (ImageSwitcher) findViewById(R.id.foto);
+        foto.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                ImageView myView = new ImageView(getApplicationContext());
+                myView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                myView.setLayoutParams(new ImageSwitcher.LayoutParams(ActionBar.LayoutParams.
+                        FILL_PARENT, ActionBar.LayoutParams.FILL_PARENT));
+                return myView;
+            }
+        });
         addfoto = (Button) findViewById(R.id.addimagen);
         addfoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,6 +164,18 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
             }
         });
 
+    }
+
+    private void left() {
+        if (index - 1 >= 0)
+            foto.setImageURI(uris.get(--index));
+    }
+
+    private void right() {
+        String resource;
+
+        if (index + 1 < uris.size() )
+            foto.setImageURI(uris.get(++index));
     }
 
     private void setStringArrayEncodedImages() {
@@ -230,7 +267,7 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
                 String imageFileName = "JPEG_" + timeStamp + "_";
                 File storageDir = Environment.getExternalStoragePublicDirectory(
                         Environment.DIRECTORY_PICTURES);
-                 imagen = null;
+                imagen = null;
                 try {
                     imagen = File.createTempFile(
                             imageFileName,  /* prefix */
@@ -285,11 +322,11 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 String imageFileName = "JPEG_" + timeStamp + "_";
                 File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                    imagen = File.createTempFile(
-                            imageFileName,  /* prefix */
-                            ".jpg",         /* suffix */
-                            storageDir      /* directory */
-                    );
+                imagen = File.createTempFile(
+                        imageFileName,  /* prefix */
+                        ".jpg",         /* suffix */
+                        storageDir      /* directory */
+                );
                 //TODO Comprimir imagen
                 FileOutputStream out = new FileOutputStream(imagen);
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 50, out);
@@ -310,6 +347,15 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
     private void showImages() {
         Log.i("FOTO","Ahora se deberían enseñar las imagenes");
         Log.i("FOTO", fotos.toString());
+        Uri ur = null;
+        uris = new ArrayList<Uri>();
+        if(fotos.size() != 0)
+        {
+        for (int i = 0; i < fotos.size(); i++){
+            ur = Uri.fromFile(new File(fotos.get(i)));
+            uris.add(ur);
+        }
+        foto.setImageURI(uris.get(0));}
     }
 
 
@@ -324,12 +370,14 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
                 Log.i("FOTO", "exito subida, codigo " + i);
                 try {
                     String respuesta = new String(responseBody, "UTF-8");
-                    Log.i("FOTO", "respuesta: " + respuesta);
+                    Log.i("FOTO", "respuesta: "+respuesta);
 
-                    if (respuesta.equalsIgnoreCase("true")) {
+                    if(respuesta.equalsIgnoreCase("true"))
+                    {
                         Toast.makeText(getApplicationContext(), getString(R.string.exitoHistoria), Toast.LENGTH_LONG).show();
                         finalizarEdicion();
-                    } else
+                    }
+                    else
                         Toast.makeText(getApplicationContext(), getString(R.string.errorHistoria), Toast.LENGTH_LONG).show();
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
@@ -341,10 +389,10 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
             public void onFailure(int i, Header[] headers, byte[] responseBody, Throwable throwable) {
                 Toast.makeText(getApplicationContext(), getString(R.string.errorHistoria), Toast.LENGTH_LONG).show();
                 progreso.cancel();
-                Log.i("FOTO", "fallo subida, codigo " + i);
+                Log.i("FOTO", "fallo subida, codigo "+i);
                 try {
                     String respuesta = new String(responseBody, "UTF-8");
-                    Log.i("FOTO", "respuesta del servidor: " + respuesta);
+                    Log.i("FOTO", "respuesta del servidor: "+respuesta);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -354,15 +402,5 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
 
     private void finalizarEdicion() {
         this.finish();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle elBundle){
-
-        elBundle.putString("titulo", titulo.getText().toString());
-        elBundle.putString("descripcion", descripcion.getText().toString());
-        elBundle.putString("etiquetas", etiquetas.getText().toString());
-
-        elBundle.putStringArrayList("fotos", fotos);
     }
 }
