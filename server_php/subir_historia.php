@@ -18,19 +18,19 @@
 			die("false");
 
 		foreach ($_GET["etiquetas"] as &$etiqueta) {
-        			$query = "SELECT id FROM etiqueta WHERE nombre = '$etiqueta'"; // checking the existence of the tag.
-        			$sql = $conn->query($query);
-                    if (!$sql->fetch_assoc()) { // if does not exist, we create it.
-        				$query = "INSERT INTO etiqueta (nombre) VALUES ('$etiqueta')"; //
-        				if (!$conn->query($query))
-        					die("false");
-                    }
+			$query = "SELECT id FROM etiqueta WHERE nombre = '$etiqueta'"; // checking the existence of the tag.
+			$sql = $conn->query($query);
+			if (!$sql->fetch_assoc()) { // if does not exist, we create it.
+				$query = "INSERT INTO etiqueta (nombre) VALUES ('$etiqueta')"; //
+				if (!$conn->query($query))
+					die("false");
+			}
 
-                    $query = "INSERT INTO etiquetas (id_etiq, id_hist) VALUES ((SELECT id FROM etiqueta WHERE nombre = '$etiqueta'), (SELECT id FROM historia WHERE id_us = $id AND titulo = '$titulo' AND descripcion = '$descripcion'))"; // inserting story with the tag.
-        			echo $query;
-                    if (!$conn->query($query))
-                    	die("false");
-        		}
+			$query = "INSERT INTO etiquetas (id_etiq, id_hist) VALUES ((SELECT id FROM etiqueta WHERE nombre = '$etiqueta'), (SELECT id FROM historia WHERE id_us = $id AND titulo = '$titulo' AND descripcion = '$descripcion'))"; // inserting story with the tag.
+			echo $query;
+			if (!$conn->query($query))
+				die("false");
+		}
 
 		foreach ($_POST["fotos"] as &$foto) {
 		    $path = $id_us . "_" . date('Ymd_His') . ".jpg";
