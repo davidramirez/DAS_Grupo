@@ -38,4 +38,6 @@
     <string name="nofotos">Add a image to continue.</string>
     <string name="actionNuevaHistoria">Write new story</string>
     <string name="contrasenasNoCoinciden">The new passwords do not match or the old password is incorrect.</string>
+    <string name="izquierda"><![CDATA[<-]]></string>
+    <string name="derecha"><![CDATA[->]]></string>
 </resources>
