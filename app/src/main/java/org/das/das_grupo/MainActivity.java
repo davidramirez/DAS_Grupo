@@ -224,8 +224,8 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
         elfragmento = new ListarHistoriasFragment();
         args.putInt("opcion", 3);
         args.putInt("id", id);
+        elfragmento.setArguments(args);
         FragmentManager elgestorfragmentos = getSupportFragmentManager();
-
         elgestorfragmentos.beginTransaction().replace(R.id.contenido, elfragmento).commit();
         elgestorfragmentos.executePendingTransactions();
     }
