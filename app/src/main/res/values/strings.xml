@@ -44,4 +44,5 @@
     <string name="errorCamara">No se puede acceder a la cámara</string>
     <string name="preparandoImagenes">Preparando las imágenes para el envío</string>
     <string name="subiendoHistoria">Guardando la historia en el servidor</string>
+    <string name="imagenResError">Fallo al procesar la imagen</string>
 </resources>
