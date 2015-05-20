@@ -17,24 +17,20 @@
 		if (!$conn->query($query))
 			die("false");
 
-		foreach ($_POST["etiquetas"] as &$etiqueta) {
-			$query = "SELECT id FROM etiqueta WHERE nombre = $etiqueta"; // checking the existence of the tag.
-			$sql = $conn->query($query);
-            if (!sql) { // if does not exist, we create it.
-				$query = "INSERT INTO etiqueta (nombre) VALUES ($etiqueta)"; //
-				if (!$conn->query($query))
-					die("false");
-				else
-					$id_etiq = $mysqli->insert_id; // obtaining the id of the tag.
-            } else {
-            	$etiq = $sql->fetch_assoc(); // if the tag existed, we obtain its id.
-            	$id_etiq = $etiq['id'];
-            }
+		foreach ($_GET["etiquetas"] as &$etiqueta) {
+        			$query = "SELECT id FROM etiqueta WHERE nombre = '$etiqueta'"; // checking the existence of the tag.
+        			$sql = $conn->query($query);
+                    if (!$sql->fetch_assoc()) { // if does not exist, we create it.
+        				$query = "INSERT INTO etiqueta (nombre) VALUES ('$etiqueta')"; //
+        				if (!$conn->query($query))
+        					die("false");
+                    }
 
-            $query = "INSERT INTO etiquetas (id_etiq, id_hist) VALUES ($id_etiq, $id)"; // inserting story with the tag.
-            if (!$conn->query($query))
-            	die("false");
-		}
+                    $query = "INSERT INTO etiquetas (id_etiq, id_hist) VALUES ((SELECT id FROM etiqueta WHERE nombre = '$etiqueta'), (SELECT id FROM historia WHERE id_us = $id AND titulo = '$titulo' AND descripcion = '$descripcion'))"; // inserting story with the tag.
+        			echo $query;
+                    if (!$conn->query($query))
+                    	die("false");
+        		}
 
 		foreach ($_POST["fotos"] as &$foto) {
 		    $path = $id_us . "_" . date('Ymd_His') . ".jpg";
@@ -44,7 +40,7 @@
             fwrite($file, $binary);
             fclose($file);
 
-		    $query = "INSERT INTO imagenes (id_hist, path) VALUES ((SELECT id FROM historia WHERE id_us = '$id' AND titulo = '$titulo' AND descripcion = '$descripcion'), '$path')";
+		    $query = "INSERT INTO imagenes (id_hist, path) VALUES ((SELECT id FROM historia WHERE id_us = $id AND titulo = '$titulo' AND descripcion = '$descripcion'), '$path')";
 
             if (!$conn->query($query))
             	die("false");
