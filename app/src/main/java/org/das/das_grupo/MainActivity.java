@@ -1,5 +1,6 @@
 package org.das.das_grupo;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -96,10 +97,12 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
                 //no sea cerrar sesión
                 if (position != 5) {
                     elfragmento.setArguments(args);
-                    FragmentManager elgestorfragmentos = getSupportFragmentManager();
+                    android.support.v4.app.FragmentTransaction elgestorfragmentos = getSupportFragmentManager().beginTransaction();
 
-                    elgestorfragmentos.beginTransaction().replace(R.id.contenido, elfragmento).commit();
-                    elgestorfragmentos.executePendingTransactions();
+                    elgestorfragmentos.replace(R.id.contenido, elfragmento);
+                    elgestorfragmentos.addToBackStack(null);
+                    elgestorfragmentos.commit();
+                    getSupportFragmentManager().executePendingTransactions();
 
                     lalista.setItemChecked(position, true);
                     String tituloseccion = opciones[position];
@@ -227,8 +230,11 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
         getSupportFragmentManager().executePendingTransactions();
         if(getSupportFragmentManager().getBackStackEntryCount() == 0)
             super.onBackPressed();
-        else
-            getSupportFragmentManager().popBackStack();
+        else {
+            //String tag = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
+            getSupportFragmentManager().popBackStackImmediate();
+            //getSupportActionBar().setTitle(tag);
+        }
     }
 
     public void onFragmentInteraction(Uri uri) {
