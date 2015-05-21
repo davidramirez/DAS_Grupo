@@ -8,7 +8,7 @@
 	if ($conn->connect_error)
 	    die("false");
 
-	if (!empty($_POST["id"]) && !empty($_POST["titulo"]) && !empty($_POST["descripcion"]) && /*!empty($_POST["fotos"]) &&*/ !empty($_POST["etiquetas"])) {
+	if (!empty($_POST["id"]) && !empty($_POST["titulo"]) && !empty($_POST["descripcion"]) && !empty($_POST["fotos"]) && !empty($_POST["etiquetas"])) {
 		$id = $_POST["id"];
 		$titulo = $_POST["titulo"];
 		$descripcion = $_POST["descripcion"];
