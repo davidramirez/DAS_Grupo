@@ -34,6 +34,7 @@ import org.das.das_grupo.packDialogos.AlertaCampoIncorrectoDialog;
 import org.das.das_grupo.packDialogos.NoFotosDialog;
 import org.das.das_grupo.packDialogos.SelectorFuenteFotoDialog;
 import org.das.das_grupo.packGestores.GestorConexiones;
+import org.das.das_grupo.packGestores.GestorImagenes;
 import org.das.das_grupo.packGestores.GestorUsuarios;
 
 import java.io.ByteArrayOutputStream;
@@ -319,7 +320,17 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
         Log.i("FOTO", ""+resultCode);
         //Si la fuente era la camara
         if(requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-            //TODO comprimir imagen
+            Bitmap bitmap = BitmapFactory.decodeFile(imagen.getAbsolutePath());
+            Bitmap newBitmap = GestorImagenes.getGestorImagenes().escalarImagen(bitmap);
+
+            FileOutputStream out = null;
+            try {
+                out = new FileOutputStream(imagen);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            newBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+
             //Añadir la ruta del archivo a fotos
             fotos.add(imagen.getAbsolutePath());
             //Y volver a mostrar las imagenes
@@ -332,6 +343,7 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
             try {
                 is = getContentResolver().openInputStream(imagenElegida);
                 Bitmap bitmap = BitmapFactory.decodeStream(is);
+                Bitmap newBitmap = GestorImagenes.getGestorImagenes().escalarImagen(bitmap);
 
                 //Guardar la imagen de la galeria en un directorio propio
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -342,9 +354,9 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
                         ".jpg",         /* suffix */
                         storageDir      /* directory */
                 );
-                //TODO Comprimir imagen
+
                 FileOutputStream out = new FileOutputStream(imagen);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, out);
+                newBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
 
                 fotos.add(imagen.getAbsolutePath());
                 showImages();
