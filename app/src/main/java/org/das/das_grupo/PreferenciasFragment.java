@@ -100,7 +100,7 @@ public class PreferenciasFragment extends Fragment {
                             @Override
                             protected Boolean doInBackground(Void... params) {
                                 return GestorConexiones.getGestorConexiones().updateUser(GestorUsuarios.getGestorUsuarios().getIdUsuario(getActivity().getApplication()),
-                                        GestorUsuarios.getGestorUsuarios().getGcmIdUsuario(getActivity().getApplication()),contn1 ,contv, avis);
+                                        GestorUsuarios.getGestorUsuarios().getGcmIdUsuario(getActivity().getApplication()), contn1, contv, avis);
                             }
 
                             @Override
@@ -109,12 +109,13 @@ public class PreferenciasFragment extends Fragment {
 
                                 if (id == false) {
                                     Toast.makeText(getActivity().getApplicationContext(), getString(R.string.errorReg), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getActivity().getApplicationContext(), getString(R.string.datos_cambiados), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }.execute(null, null, null);
                     } else {
                         Toast.makeText(getActivity().getApplicationContext(), getString(R.string.contrasenasNoCoinciden), Toast.LENGTH_SHORT).show();
-
                     }
                 }
             }
