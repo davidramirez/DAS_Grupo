@@ -1,22 +1,24 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context="org.das.das_grupo.PreferenciasFragment"
-    android:fillViewport="false"
-  >
+    android:fillViewport="false" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"  >
 
     <!-- TODO: Update blank fragment layout -->
 
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Cambiar Contraseña"
+            android:text="@string/cambiar_pass"
             android:id="@+id/textView" />
 
         <EditText
@@ -44,19 +46,26 @@
             android:layout_gravity="center_horizontal"
             android:hint="Repite nueva contraseña" />
 
+        <TextView
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/cambiar_pref"
+            android:id="@+id/textView5" />
+
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Avisarme de nuevas historias"
+            android:text="@string/want_notifications"
             android:id="@+id/avisosPref"
-            android:layout_gravity="center_horizontal"
             android:checked="false" />
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cambiar"
-            android:id="@+id/cambiarPref"
-            android:layout_gravity="center_horizontal" />
+            android:text="@string/actualizar"
+            android:id="@+id/cambiarPref" />
     </LinearLayout>
 </ScrollView>

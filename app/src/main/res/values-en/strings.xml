@@ -49,4 +49,7 @@
     <string name="derecha"><![CDATA[->]]></string>
     <string name="descargandoImagenes">Downloading the images.</string>
     <string name="datos_cambiados">Your data has been updated successfully.</string>
+    <string name="actualizar">Update</string>
+    <string name="cambiar_pass">Password change:</string>
+    <string name="cambiar_pref">Preference change:</string>
 </resources>
