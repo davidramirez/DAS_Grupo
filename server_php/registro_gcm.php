@@ -7,7 +7,7 @@
     if ($conn->connect_error)
         die("false");
 
-    if (!empty($_POST["id"]) && $_POST["contrasena"]) && !empty($_POST["gcm"])) {
+    if (!empty($_POST["id"]) && !empty($_POST["contrasena"]) && !empty($_POST["gcm"])) {
         $id = $_POST["id"];
         $pass = $_POST["contrasena"];
         $gcm = $_POST["gcm"];

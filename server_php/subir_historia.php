@@ -31,9 +31,11 @@
 			if (!$conn->query($query))
 				die("false");
 		}
+		
+		$i = 1;
 
 		foreach ($_POST["fotos"] as &$foto) {
-		    $path = $id . "_" . date('Ymd_His') . ".jpg";
+		    $path = $id . "_" . date('Ymd_His') . "_" . $i . ".jpg";
             $binary = base64_decode($foto);
             header('Content-Type: jpg; charset=utf-8');
             $file = fopen('imagenes/' . $path, 'wb') or die("No file saved");
@@ -44,6 +46,8 @@
 
             if (!$conn->query($query))
             	die("false");
+            
+            $i++;
 		}
 
 		echo "true";
