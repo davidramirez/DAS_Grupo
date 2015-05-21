@@ -52,4 +52,5 @@
     <string name="actualizar">Actualizar</string>
     <string name="cambiar_pass">Cambio de contraseña:</string>
     <string name="cambiar_pref">Cambio de preferencias:</string>
+    <string name="comentar">Comentar</string>
 </resources>

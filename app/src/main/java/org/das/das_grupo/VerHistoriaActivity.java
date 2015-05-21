@@ -38,7 +38,7 @@ import java.util.ArrayList;
 public class VerHistoriaActivity extends ActionBarActivity {
 
     private int id,id_us;
-    private TextView titulo,autor,descipcion,etiquetas;
+    private TextView autor,descipcion,etiquetas;
     private ListView list;
     private Button left,right, comentar;
     private ImageSwitcher switcher;
@@ -60,7 +60,6 @@ public class VerHistoriaActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ver_historia);
 
-        titulo = (TextView) findViewById(R.id.tituloVerH);
         autor = (TextView) findViewById(R.id.autorVerH);
         descipcion = (TextView) findViewById(R.id.descripcionVerH);
         etiquetas = (TextView) findViewById(R.id.etiquetasVerH);
@@ -115,7 +114,7 @@ public class VerHistoriaActivity extends ActionBarActivity {
             fotos = savedInstanceState.getStringArrayList("fotos");
             comentarios = savedInstanceState.getStringArrayList("comentarios");
             Log.i("LOAD", comentarios.toString());
-            titulo.setText(savedInstanceState.getString("titulo"));
+            setTitle(savedInstanceState.getString("titulo"));
             autor.setText(savedInstanceState.getString("autor"));
             descipcion.setText(savedInstanceState.getString("descipcion"));
             etiquetas.setText(savedInstanceState.getString("etiquetas"));
@@ -175,7 +174,7 @@ public class VerHistoriaActivity extends ActionBarActivity {
         String resource;
 
         if (index + 1 < resources.size() )
-        switcher.setImageURI(resources.get(++index));
+            switcher.setImageURI(resources.get(++index));
     }
 
     private void fillData() {
@@ -197,15 +196,19 @@ public class VerHistoriaActivity extends ActionBarActivity {
 
                         jsonObject = jsonArray.getJSONObject("0");
 
-                        titulo.append(jsonObject.getString("titulo"));
-                        autor.append(jsonObject.getString("autor"));
+                        setTitle(jsonObject.getString("titulo"));
+                        autor.setText(jsonObject.getString("autor") + " | " + jsonObject.getString("fecha"));
                         descipcion.setText(jsonObject.getString("descripcion"));
 
                         JSONArray etiq = jsonArray.getJSONArray("etiquetas");
 
-
-                        for (int i = 0; i < etiq.length(); i++)
-                            etiquetas.append(etiq.getJSONObject(i).getString("nombre") + "; ");
+                        etiquetas.setText("Tags: ");
+                        for (int i = 0; i < etiq.length(); i++) {
+                            if (etiq.length() - 1 == i)
+                                etiquetas.append(etiq.getJSONObject(i).getString("nombre"));
+                            else
+                                etiquetas.append(etiq.getJSONObject(i).getString("nombre") + "; ");
+                        }
 
                         JSONArray com = jsonArray.getJSONArray("comentarios");
 
@@ -276,7 +279,7 @@ public class VerHistoriaActivity extends ActionBarActivity {
                     resources.add(ur);
                 }
                 if (resources.size() != 0)
-                switcher.setImageURI(resources.get(index));
+                    switcher.setImageURI(resources.get(index));
 
                 progreso.dismiss();
 
@@ -294,11 +297,10 @@ public class VerHistoriaActivity extends ActionBarActivity {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle elBundle){
-
+    public void onSaveInstanceState(Bundle elBundle) {
         elBundle.putStringArrayList("fotos", fotos);
         elBundle.putStringArrayList("comentarios", comentarios);
-        elBundle.putString("titulo", titulo.getText().toString());
+        elBundle.putString("titulo", getTitle().toString());
         elBundle.putString("autor", autor.getText().toString());
         elBundle.putString("descipcion", descipcion.getText().toString());
         elBundle.putString("etiquetas", etiquetas.getText().toString());

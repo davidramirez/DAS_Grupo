@@ -52,4 +52,5 @@
     <string name="actualizar">Update</string>
     <string name="cambiar_pass">Password change:</string>
     <string name="cambiar_pref">Preference change:</string>
+    <string name="comentar">Discuss</string>
 </resources>
