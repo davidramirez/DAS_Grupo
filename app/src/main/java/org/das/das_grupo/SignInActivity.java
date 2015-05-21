@@ -101,7 +101,32 @@ public class SignInActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putString("nombre", nombre.getText().toString());
+        savedInstanceState.putString("contrasena",contrasena.getText().toString());
+        savedInstanceState.putBoolean("aviso",avisos.isChecked());
+    }
 
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState.getString("nombre")!=null)
+        {
+            nomb = savedInstanceState.getString("nombre");
+            nombre.setText(nomb);
+        }
+
+        if (savedInstanceState.getString("contrasena")!=null)
+        {
+            contra = savedInstanceState.getString("contrasena");
+            contrasena.setText(contra);
+        }
+
+
+            avis = savedInstanceState.getBoolean("aviso");
+            avisos.setChecked(avis);
+
+    }
     @Override
     public void onBackPressed() {
         finish();

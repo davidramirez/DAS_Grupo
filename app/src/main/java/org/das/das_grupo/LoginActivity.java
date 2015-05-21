@@ -167,8 +167,8 @@ public class LoginActivity extends ActionBarActivity {
     }
     protected void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putString("nombre",nombre);
-        savedInstanceState.putString("contrasena",contra);
+        savedInstanceState.putString("nombre",usuario.getText().toString());
+        savedInstanceState.putString("contrasena",contrasena.getText().toString());
         savedInstanceState.putString("regid",regid);
     }
 
@@ -183,7 +183,7 @@ public class LoginActivity extends ActionBarActivity {
         if (savedInstanceState.getString("contrasena")!=null)
         {
             contra = savedInstanceState.getString("contrasena");
-            usuario.setText(contra);
+            contrasena.setText(contra);
         }
 
         if (savedInstanceState.getString("regid")!=null)
