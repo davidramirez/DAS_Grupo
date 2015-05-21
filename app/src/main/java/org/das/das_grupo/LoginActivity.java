@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -113,6 +114,7 @@ public class LoginActivity extends ActionBarActivity {
             gcm = GoogleCloudMessaging.getInstance(LoginActivity.this);
         }
         try {
+            Log.i("GCM", "obteniendo nuevo ID");
             regid = gcm.register(SENDER_ID);
         } catch (IOException e) {
             e.printStackTrace();

@@ -2,6 +2,7 @@ package org.das.das_grupo.packGestores;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
@@ -272,6 +273,7 @@ public class GestorConexiones {
 
 
     public boolean singInGCM(int id, String contra, String regid) {
+        Log.i("GCM", "subiendo id al servidor");
         URL url = null;
         Boolean ok =false;
         try {
@@ -342,6 +344,7 @@ public class GestorConexiones {
                 e.printStackTrace();
             }
             response = convertInputStreamToString(inputStream);
+            Log.i("GCM","Respuesta al registro: "+response);
             ok = Boolean.valueOf(response);
 
         } else{
