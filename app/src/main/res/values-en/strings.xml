@@ -32,13 +32,21 @@
     <string name="camposincorrectos">Fill in all the obligatory fields.</string>
     <string name="aviso">Warning</string>
     <string name="cerrarSesion">Do you want to log out?</string>
-    <string name="seleccionfuentefoto">How de oy u want to obtain the image?</string>
+    <string name="seleccionfuentefoto">How do you want to obtain the image?</string>
     <string name="camara">Camera</string>
     <string name="galeria">Gallery</string>
     <string name="nofotos">Add a image to continue.</string>
-    <string name="actionNuevaHistoria">Write new story</string>
+    <string name="actionNuevaHistoria">Write a new story</string>
     <string name="contrasenasNoCoinciden">The new passwords do not match or the old password is incorrect.</string>
+    <string name="errorHistoria">Error, there was a problem saving the story.</string>
+    <string name="exitoHistoria">The story was saved correctly.</string>
+    <string name="errorGaleria">Unable to open the image gallery.</string>
+    <string name="errorCamara">Unable to access to the camera.</string>
+    <string name="preparandoImagenes">Preparing the images to send them.</string>
+    <string name="subiendoHistoria">Saving the story in the server.</string>
+    <string name="imagenResError">Unable to process the image.</string>
     <string name="izquierda"><![CDATA[<-]]></string>
     <string name="derecha"><![CDATA[->]]></string>
-    <string name="descargandoImagenes">Descargando Imagenes</string>
+    <string name="descargandoImagenes">Downloading the images.</string>
+    <string name="datos_cambiados">Your data has been updated successfully.</string>
 </resources>
