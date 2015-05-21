@@ -1,5 +1,6 @@
 package org.das.das_grupo.packDialogos;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -22,7 +23,8 @@ public class CerrarSesionDialog extends DialogFragment {
                 .setTitle(getString(R.string.aviso))
                 .setPositiveButton(getString(R.string.aceptar), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        //TODO programar cierre de sesion
+                        if(ellistener != null)
+                            ellistener.cerrarSesion();
                     }
                 })
                 .setNegativeButton(getString(R.string.cancelar), new DialogInterface.OnClickListener() {
@@ -35,4 +37,21 @@ public class CerrarSesionDialog extends DialogFragment {
         return builder.create();
     }
 
+
+    public interface ListenerCierreSesion{
+        public void cerrarSesion();
+    }
+
+    private ListenerCierreSesion ellistener;
+
+    public void onAttach(Activity activity)
+    {
+        super.onAttach(activity);
+        try{
+            ellistener = (ListenerCierreSesion) activity;
+        } catch (ClassCastException e){
+            throw new ClassCastException(activity.toString() + "debe implementar ListenerCierreSesion");
+        }
+
+    }
 }

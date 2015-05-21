@@ -18,11 +18,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import org.das.das_grupo.packDialogos.CerrarSesionDialog;
 import org.das.das_grupo.packGestores.GestorImagenes;
 import org.das.das_grupo.packGestores.GestorUsuarios;
 
 
-public class MainActivity extends ActionBarActivity implements ListarEtiquetasFragment.OnFragmentInteractionListener, ListarHistoriasFragment.OnFragmentInteractionListener, PreferenciasFragment.OnFragmentInteractionListener {
+public class MainActivity extends ActionBarActivity implements ListarEtiquetasFragment.OnFragmentInteractionListener, ListarHistoriasFragment.OnFragmentInteractionListener, PreferenciasFragment.OnFragmentInteractionListener, CerrarSesionDialog.ListenerCierreSesion {
 
     private ListView lalista;
     private DrawerLayout ellayout;
@@ -87,7 +88,10 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
                         elfragmento = new PreferenciasFragment();
                         break;
                     case 5://Cerrar Sesion
-                        cerrarSesion();//TODO meter el dialog de cierre
+                        CerrarSesionDialog diag = new CerrarSesionDialog();
+                        diag.onAttach(MainActivity.this);
+                        diag.show(getSupportFragmentManager(), null);
+
 
                 }
                 args.putInt("opcion", seleccion);
