@@ -55,7 +55,7 @@ public class GcmIntentService extends IntentService {
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         //Id de la historia
-        int id_hist = msg.getInt("id_hist");
+        int id_hist = Integer.valueOf(msg.getString("id_hist"));
         Log.i("PUSH","id de la historia: "+id_hist);
         // Create an Intent to launch VerHistoriaActivity
         Intent intent = new Intent(this, VerHistoriaActivity.class);
@@ -71,6 +71,7 @@ public class GcmIntentService extends IntentService {
                         .setContentText(msg.getCharSequence("Mensaje"));
 
         mBuilder.setContentIntent(contentIntent);
+        mBuilder.setAutoCancel(true);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }
 }
