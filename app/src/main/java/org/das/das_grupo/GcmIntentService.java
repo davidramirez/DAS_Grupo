@@ -54,8 +54,12 @@ public class GcmIntentService extends IntentService {
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        // Create an Intent to launch MainActivity
-        Intent intent = new Intent(this, MainActivity.class);
+        //Id de la historia
+        int id_hist = msg.getInt("id_hist");
+        Log.i("PUSH","id de la historia: "+id_hist);
+        // Create an Intent to launch VerHistoriaActivity
+        Intent intent = new Intent(this, VerHistoriaActivity.class);
+        intent.putExtra("id", id_hist);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder mBuilder =
@@ -63,8 +67,8 @@ public class GcmIntentService extends IntentService {
                         .setSmallIcon(R.drawable.bilbostories_notification)
                         .setContentTitle("BilboStories")
                         .setStyle(new NotificationCompat.BigTextStyle()
-                                .bigText(msg.getCharSequence("App")))
-                        .setContentText(msg.getCharSequence("App"));
+                                .bigText(msg.getCharSequence("Mensaje")))
+                        .setContentText(msg.getCharSequence("Mensaje"));
 
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
