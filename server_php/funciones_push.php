@@ -1,7 +1,7 @@
 <?php
     require "conexion_bd.php";
 
-    function enviar_push($historia) {
+    function enviar_push_comentarios($historia) {
         $conn = new mysqli($HOST, $USUARIO, $CONTRASENA, $BD);
 
         // Check connection
@@ -17,17 +17,42 @@
             array_push($suscriptores, $usuario);
         }
 
-        $query = "SELECT titulo FROM historias WHERE id = $historia";
+        $query = "SELECT titulo FROM historia WHERE id = $historia";
         $sql = $conn->query($query);
 
         $nHistoria = $sql->fetch_assoc();
 
         $conn->close();
 
-        push($suscriptores, $nHistoria['titulo']);
+        $texto = "Nuevos comentarios en " . $nHistoria;
+
+        push($suscriptores, $texto);
     }
 
-    function push($usuarios, $historia) {
+    function enviar_push_historias($historia) {
+        $conn = new mysqli($HOST, $USUARIO, $CONTRASENA, $BD);
+
+        // Check connection
+        if ($conn->connect_error)
+            die('false');
+
+        $query = "SELECT usuarios.id_gcm AS id_gcm FROM usuarios WHERE usuarios.avisar_nuevo_historia = 'true'";
+        $sql = $conn->query($query);
+        $suscriptores = array();
+
+        while ($suscriptor = $sql->fetch_assoc()) {
+            $usuario = $suscriptor['id_gcm'];
+            array_push($suscriptores, $usuario);
+        }
+
+        $conn->close();
+
+        $texto = "Nueva historia: " . $historia;
+
+        push($suscriptores, $texto);
+    }
+
+    function push($usuarios, $texto) {
         // 00.- variables
         $api_key = "AIzaSyBR-RD18q05kYVwwntyRu7nQZZzQmRHLCs";
         $GCM_url = "https://android.googleapis.com/gcm/send";
@@ -40,7 +65,7 @@
 
         // 02.- Preparamos el contenido del mensaje:
         $data = array(
-            'App' => 'Nuevo comentario en ' . $historia
+            'App' => $texto
         );
         $info= array(
             "registration_ids" => $usuarios,
@@ -58,6 +83,8 @@
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($info));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
         // Enviamos el mensaje:
         curl_exec($ch);

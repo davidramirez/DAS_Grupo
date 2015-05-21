@@ -13,21 +13,23 @@
 		$historia = $_POST["id_historia"];
 		$comentario = $_POST["comentario"];
 
-		$query = "INSERT INTO comentarios (id_hist, id_us, texto, fecha) VALUES ($usuario, $historia, '$comentario', NOW())";
+		$query = "INSERT INTO comentarios (id_hist, id_us, texto, fecha) VALUES ($historia, $usuario, '$comentario', NOW())";
 
 		if (!$conn->query($query))
 		    die('false');
 
-		$query = "INSERT INTO suscripciones (id_hist, id_us) VALUES ($usuario, $historia)";
-
-        if (!$conn->query($query))
-            die('false');
+		$query = "SELECT id_hist FROM suscripciones WHERE id_hist = $historia AND id_us = $usuario";
+		$sql = $conn->query($query);
+		if (!$sql->fetch_assoc()) {
+			$query = "INSERT INTO suscripciones (id_hist, id_us) VALUES ($historia, $usuario)";
+			$conn->query($query);
+		}
 
 		echo 'true';
 
 		$conn->close();
 
-		enviar_push($historia);
+		enviar_push_comentarios($historia);
 	} else
 	    echo 'false';
 ?>

@@ -1,5 +1,6 @@
 <?php
 	require "conexion_bd.php";
+	require "funciones_push.php";
 
     $conn = new mysqli($HOST, $USUARIO, $CONTRASENA, $BD);
 
@@ -48,6 +49,8 @@
 		echo "true";
 
 		$conn->close();
+
+		enviar_push_historias($titulo);
 	} else
 	    echo "false";
 ?>
