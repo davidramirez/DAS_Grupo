@@ -44,9 +44,8 @@ public class GestorImagenes {
     }
 
     /**
-     * Proporciona las imagenes identificadas dados sus path en el servidor.
+     * Proporciona las imagenes dados sus path en el servidor, comprobando que no estan ya descargadas.
      *
-     * Devuelve null si hay algun error
      */
     public String[] getImagen(String[] serverPaths)
     {
@@ -56,28 +55,37 @@ public class GestorImagenes {
             pat += serverPaths[j]+" ";
         Log.i("FOTO", pat);*/
 
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         for(int i = 0; i<serverPaths.length;i++)
         {
-            try {
-                String url = GestorConexiones.WEB_SERVER_URL+"/imagenes/"+serverPaths[i];
-                Log.i("FOTO", url);
-                Bitmap bm = downloadImage(url);
+            File local = new File(storageDir.getAbsolutePath()+"/"+serverPaths[i]);
+            Log.i("FOTO","archivo a comprobar: " + storageDir.getAbsolutePath()+"/"+serverPaths[i]);
 
-                //Guardar el bitmap
-                File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                File imagen = null;
+            //Si ya tenemos en la carpeta una foto con ese nombre, ese es el archivo buscado, no descargamos
+            if (local.exists() && !local.isDirectory()) {
+                Log.i("FOTO","imagen no descargada");
+                paths[i] = local.getAbsolutePath();
+            }
+            else {
+                try {
+                    Log.i("FOTO","descargando foto del servidor");
+                    String url = GestorConexiones.WEB_SERVER_URL+"/imagenes/"+serverPaths[i];
+                    Log.i("FOTO", url);
+                    Bitmap bm = downloadImage(url);
 
-                imagen = File.createTempFile(
-                        serverPaths[i].substring(0, serverPaths[i].length()-4),  /* prefix */
-                        ".jpg",         /* suffix */
-                        storageDir      /* directory */
-                );
-                FileOutputStream out = new FileOutputStream(imagen);
-                bm.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                    //Guardar el bitmap
+                    File imagen = null;
 
-                paths[i] = imagen.getAbsolutePath();
-            } catch (IOException e) {
-                e.printStackTrace();
+                    Log.i("FOTO","nombre: "+serverPaths[i].substring(0, serverPaths[i].length()-4));
+                    imagen = new File(storageDir.getAbsolutePath()+"/"+serverPaths[i]);
+                    FileOutputStream out = new FileOutputStream(imagen);
+                    bm.compress(Bitmap.CompressFormat.JPEG, 100, out);
+
+                    paths[i] = imagen.getAbsolutePath();
+                    Log.i("FOTO","path imagen descargada: "+imagen.getAbsolutePath());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return paths;

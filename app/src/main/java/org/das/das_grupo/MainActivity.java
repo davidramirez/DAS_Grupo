@@ -257,7 +257,7 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
     }
 
     public void onHistoriaSelected(int id) {
-        Toast.makeText(MainActivity.this,String.valueOf(id),Toast.LENGTH_SHORT).show();
+        //Toast.makeText(MainActivity.this,String.valueOf(id),Toast.LENGTH_SHORT).show();
         Intent i = new Intent(MainActivity.this, VerHistoriaActivity.class);
         i.putExtra("id", id);
         startActivity(i);
