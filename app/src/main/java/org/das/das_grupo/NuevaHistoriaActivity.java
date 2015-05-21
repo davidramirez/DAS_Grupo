@@ -160,6 +160,7 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
                     }
                     setStringArrayEncodedImages();
                     params.put("fotos", encodedImages);
+                    Log.i("FOTO", "fotos subidas: "+encodedImages.length);
 
                     //Hacer la peticion
                     subirHistoria(params);
