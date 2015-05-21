@@ -111,8 +111,6 @@ public class VerHistoriaActivity extends ActionBarActivity {
             }
         });
 
-        loadImages();
-
         comentario = (EditText) findViewById(R.id.comentarTVerH);
 
 
@@ -208,10 +206,14 @@ public class VerHistoriaActivity extends ActionBarActivity {
                         arrayAdapter.notifyDataSetChanged();
 
                         com = jsonArray.getJSONArray("fotos");
+                        //Log.i("FOTO", com.toString());
 
                         for (int i = 0; i < com.length(); i++){
                             fotos.add(com.getJSONObject(i).getString("path"));
                         }
+
+                        //Tras tener los paths de las fotos, cargarlas
+                        loadImages();
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -252,6 +254,7 @@ public class VerHistoriaActivity extends ActionBarActivity {
             @Override
             protected String[] doInBackground(Void... voids) {
                 String[] fot = {""} ;
+                Log.i("FOTO",fotos.toString());
                 return  GestorImagenes.getGestorImagenes().getImagen(fotos.toArray(fot));
             }
 
