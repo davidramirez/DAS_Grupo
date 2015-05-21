@@ -8,8 +8,8 @@
         if ($conn->connect_error)
             die('1');
 
-        $query = "SELECT usuarios.id_gcm AS id_gcm FROM usuarios, suscripciones WHERE usuarios.id_gcm IS NOT NULL AND usuarios.id = suscripciones.id_us AND usuarios.avisar_nuevo_historia = 'true' AND suscripciones.id_hist = $historia";
-        
+        $query = "SELECT usuarios.id_gcm AS id_gcm FROM usuarios, suscripciones, historia WHERE usuarios.id_gcm IS NOT NULL AND usuarios.id = suscripciones.id_us AND usuarios.avisar_nuevo_historia = 'true' AND suscripciones.id_hist = $historia AND historia.id_us <> usuarios.id AND historia.id = $historia";
+         
         $sql = $conn->query($query);
         $suscriptores = array();
         
@@ -27,10 +27,10 @@
 
         $texto = "Nuevos comentarios en '" . $nHistoria['titulo'] . "'";
 
-        push($suscriptores, $texto);
+        push($suscriptores, $texto, $historia);
     }
 
-    function enviar_push_historias($historia) {
+    function enviar_push_historias($historia, $id) {
         require "conexion_bd.php";
         
         $conn = new mysqli($HOST, $USUARIO, $CONTRASENA, $BD);
@@ -39,7 +39,8 @@
         if ($conn->connect_error)
             die('false');
 
-        $query = "SELECT usuarios.id_gcm AS id_gcm FROM usuarios WHERE usuarios.id_gcm IS NOT NULL AND usuarios.avisar_nuevo_historia = 'true'";
+        $query = "SELECT usuarios.id_gcm AS id_gcm FROM usuarios, historia WHERE usuarios.id_gcm IS NOT NULL AND usuarios.avisar_nuevo_historia = 'true' AND historia.id_us <> usuarios.id AND historia.id = $id";
+        
         $sql = $conn->query($query);
         $suscriptores = array();
 
@@ -52,10 +53,10 @@
 
         $texto = "Nueva historia: " . $historia;
 
-        push($suscriptores, $texto);
+        push($suscriptores, $texto, $id);
     }
 
-    function push($usuarios, $texto) {
+    function push($usuarios, $texto, $id_hist) {
         // 00.- variables
         $api_key = "AIzaSyBR-RD18q05kYVwwntyRu7nQZZzQmRHLCs";
         $GCM_url = "https://android.googleapis.com/gcm/send";
@@ -68,7 +69,8 @@
 
         // 02.- Preparamos el contenido del mensaje:
         $data = array(
-            'App' => $texto
+            'Mensaje' => $texto,
+            'id_hist' => $id_hist
         );
         
         $info = array(
