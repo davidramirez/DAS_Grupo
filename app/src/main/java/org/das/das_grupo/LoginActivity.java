@@ -25,7 +25,7 @@ import java.io.InputStreamReader;
 
 public class LoginActivity extends ActionBarActivity {
 
-    private String SENDER_ID = "313210120803";
+    private String SENDER_ID = "1042125637037";
     private GoogleCloudMessaging gcm = null;
 
     private Button btLogin,btRegistrase;

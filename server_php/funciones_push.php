@@ -28,6 +28,10 @@
     }
 
     function push($usuarios, $historia) {
+        // 00.- variables
+        $api_key = "AIzaSyBR-RD18q05kYVwwntyRu7nQZZzQmRHLCs";
+        $GCM_url = "https://android.googleapis.com/gcm/send";
+
         // 01.- Preparamos la cabecera del mensaje:
         $cabecera = array(
             "Authorization: key=$api_key",
