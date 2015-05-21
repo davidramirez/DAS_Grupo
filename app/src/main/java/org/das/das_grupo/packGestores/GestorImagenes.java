@@ -24,12 +24,14 @@ public class GestorImagenes {
     }
 
     /**
-     * Proporciona la imagen identificada por su path en el servidor.
+     * Proporciona las imagenes identificadas dados sus path en el servidor.
      */
-  /*  public ?? getImagen(String serverPath)
+    public String[] getImagen(String[] serverPaths)
     {
+        String[] localPaths = null;
         //TODO implementar la descarga de la imagen del servidor, opcional el cacheo
-    }*/
+        return localPaths;
+    }
 
 
     /**
@@ -57,6 +59,7 @@ public class GestorImagenes {
                 newWidth = 500;
                 newHeight = height * (newWidth / width);
             }
+            Log.i("FOTO","alto: "+newHeight+"ancho: "+newWidth);
             redimensionado = Bitmap.createScaledBitmap(imagen, newWidth, newHeight, true);
         }
         else
