@@ -53,11 +53,11 @@ public class GestorImagenes {
             //Ver que lado es mayor y calcular nuevas dimensiones
             if(height >= width) {
                 newHeight = maxSideLength;
-                newWidth = width * (newHeight/height);
+                newWidth = (int) (width * newHeight / (double) height);
             }
             else {
                 newWidth = 500;
-                newHeight = height * (newWidth / width);
+                newHeight = (int) (height * newWidth / (double) width);
             }
             Log.i("FOTO","alto: "+newHeight+"ancho: "+newWidth);
             redimensionado = Bitmap.createScaledBitmap(imagen, newWidth, newHeight, true);
