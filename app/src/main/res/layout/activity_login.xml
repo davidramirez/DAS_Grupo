@@ -11,6 +11,16 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="180dp"
+            android:id="@+id/imageView"
+            android:src="@drawable/bilbaostoriesportada" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+
         <EditText android:hint="@string/nUsuario" android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id = "@+id/usuarioLog"/>
@@ -31,16 +41,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="@string/registrarse" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="30dp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            android:id="@+id/imageView"
-            android:src="@drawable/bilbaostoriesportada" />
 
     </LinearLayout>
 </ScrollView >
