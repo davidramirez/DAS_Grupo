@@ -1,11 +1,13 @@
 package org.das.das_grupo;
 
 import android.app.ActionBar;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import org.das.das_grupo.packGestores.GestorConexiones;
+import org.das.das_grupo.packGestores.GestorImagenes;
 import org.das.das_grupo.packGestores.GestorUsuarios;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,21 +47,30 @@ public class VerHistoriaActivity extends ActionBarActivity {
     private ArrayList<String> comentarios;
     private ArrayAdapter<String> arrayAdapter;
     private String textoCom;
+    private ArrayList<String> fotos;
 
     private ArrayList<Uri> resources;
     private int index = 0;
     private File carpeta = new File(Environment.getExternalStorageDirectory(), ".Capturas");
+
+    private ProgressDialog progreso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ver_historia);
 
+        fotos = new ArrayList<String>();
+        resources = new ArrayList<Uri>();
+
         Bundle args = getIntent().getExtras();
 
         if (args != null){
             id = args.getInt("id");
         }
+
+        progreso = new ProgressDialog(this);
+        progreso.setCancelable(false);
 
         id_us = Integer.valueOf(GestorUsuarios.getGestorUsuarios().getIdUsuario(VerHistoriaActivity.this));
 
@@ -99,15 +111,8 @@ public class VerHistoriaActivity extends ActionBarActivity {
             }
         });
 
-        if (carpeta.exists()) {
-            resources = new ArrayList<>();
-            resources.add(Uri.fromFile(new File(carpeta, "001.png")));
-            resources.add(Uri.fromFile(new File(carpeta, "002.png")));
-            resources.add(Uri.fromFile(new File(carpeta, "003.png")));
+        loadImages();
 
-
-            switcher.setImageURI(resources.get(0));
-        }
         comentario = (EditText) findViewById(R.id.comentarTVerH);
 
 
@@ -202,6 +207,12 @@ public class VerHistoriaActivity extends ActionBarActivity {
 
                         arrayAdapter.notifyDataSetChanged();
 
+                        com = jsonArray.getJSONArray("fotos");
+
+                        for (int i = 0; i < com.length(); i++){
+                            fotos.add(com.getJSONObject(i).getString("path"));
+                        }
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -231,5 +242,42 @@ public class VerHistoriaActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void loadImages(){
+
+        Log.i("FOTO", "Descargando imagenes");
+
+        new AsyncTask<Void, Void, String[]>() {
+            @Override
+            protected String[] doInBackground(Void... voids) {
+                String[] fot = {""} ;
+                return  GestorImagenes.getGestorImagenes().getImagen(fotos.toArray(fot));
+            }
+
+            @Override
+            protected void onPostExecute(String[] strings) {
+                super.onPostExecute(strings);
+                Uri ur;
+                for (int i = 0; i < strings.length; i++){
+                    ur = Uri.fromFile(new File(strings[i]));
+                    resources.add(ur);
+                }
+                if (resources.size() != 0)
+                switcher.setImageURI(resources.get(index));
+
+                progreso.dismiss();
+
+
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progreso.setMessage(getString(R.string.descargandoImagenes));
+                progreso.setIndeterminate(true);
+                progreso.show();
+            }
+        }.execute(null,null,null);
     }
 }

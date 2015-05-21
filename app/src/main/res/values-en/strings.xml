@@ -40,4 +40,5 @@
     <string name="contrasenasNoCoinciden">The new passwords do not match or the old password is incorrect.</string>
     <string name="izquierda"><![CDATA[<-]]></string>
     <string name="derecha"><![CDATA[->]]></string>
+    <string name="descargandoImagenes">Descargando Imagenes</string>
 </resources>

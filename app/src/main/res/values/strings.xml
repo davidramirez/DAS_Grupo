@@ -47,4 +47,5 @@
     <string name="imagenResError">Fallo al procesar la imagen</string>
     <string name="izquierda"><![CDATA[<-]]></string>
     <string name="derecha"><![CDATA[->]]></string>
+    <string name="descargandoImagenes">Descargando Imagenes</string>
 </resources>
