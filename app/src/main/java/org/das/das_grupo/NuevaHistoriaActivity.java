@@ -155,7 +155,7 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
                     params.put("descripcion", desc);
                     if(etiq.length != 0) {
                         for (int i = 0; i < etiq.length; i++)
-                            etiq[i] = etiq[i].trim();
+                            etiq[i] = etiq[i].trim().toLowerCase();
                         params.put("etiquetas", etiq);
                     }
                     setStringArrayEncodedImages();
