@@ -1,6 +1,7 @@
 package org.das.das_grupo;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,7 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.das.das_grupo.packGestores.GestorConexiones;
@@ -138,6 +141,10 @@ public class ListarHistoriasFragment extends  android.support.v4.app.Fragment {
 
                     historia hist = null;
                     JSONObject aux = null;
+
+                    ListView lvMain = (ListView) getView().findViewById(R.id.lvMain);// (ListView) getView().findViewById(R.id.lvMain);
+
+                    if (json.length() != 0){
                     for (int i = 0; i < json.length(); i++) {
                         try {
                             aux = json.getJSONObject(i);
@@ -154,7 +161,7 @@ public class ListarHistoriasFragment extends  android.support.v4.app.Fragment {
 
                     boxAdapter = new ListAdapter(products,getActivity().getApplicationContext());
 
-                    ListView lvMain = (ListView) getView().findViewById(R.id.lvMain);// (ListView) getView().findViewById(R.id.lvMain);
+
                     lvMain.setAdapter(boxAdapter);
 
                     lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -162,7 +169,21 @@ public class ListarHistoriasFragment extends  android.support.v4.app.Fragment {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             mListener.onHistoriaSelected(products.get(position).id);
                         }
-                    });
+                    });}
+                    else{
+                        ArrayList<String> histo = new ArrayList<String>();
+                        histo.add("No hay historias disponibles");
+                        ArrayAdapter<String>arrayAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),android.R.layout.simple_list_item_1,histo){
+                            @Override
+                            public View getView(int position, View convertView, ViewGroup parent) {
+                                View view=super.getView(position, convertView, parent);
+                                TextView text= (TextView) view.findViewById(android.R.id.text1);
+                                text.setTextColor(Color.BLACK);
+                                return view;
+                            }
+                        };
+                        lvMain.setAdapter(arrayAdapter);
+                    }
                 }
             }
         }.execute(null,null,null);
