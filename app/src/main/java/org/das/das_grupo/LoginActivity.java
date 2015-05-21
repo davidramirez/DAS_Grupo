@@ -165,4 +165,31 @@ public class LoginActivity extends ActionBarActivity {
         }
         return result;
     }
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putString("nombre",nombre);
+        savedInstanceState.putString("contrasena",contra);
+        savedInstanceState.putString("regid",regid);
+    }
+
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState.getString("nombre")!=null)
+        {
+            nombre = savedInstanceState.getString("nombre");
+            usuario.setText(nombre);
+        }
+
+        if (savedInstanceState.getString("contrasena")!=null)
+        {
+            contra = savedInstanceState.getString("contrasena");
+            usuario.setText(contra);
+        }
+
+        if (savedInstanceState.getString("regid")!=null)
+        {
+            regid = savedInstanceState.getString("regid");
+
+        }
+    }
 }
