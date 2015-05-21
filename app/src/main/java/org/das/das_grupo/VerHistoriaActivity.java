@@ -60,8 +60,16 @@ public class VerHistoriaActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ver_historia);
 
-        fotos = new ArrayList<String>();
-        resources = new ArrayList<Uri>();
+        titulo = (TextView) findViewById(R.id.tituloVerH);
+        autor = (TextView) findViewById(R.id.autorVerH);
+        descipcion = (TextView) findViewById(R.id.descripcionVerH);
+        etiquetas = (TextView) findViewById(R.id.etiquetasVerH);
+
+        list = (ListView) findViewById(R.id.listaCoVerH);
+
+        left = (Button) findViewById(R.id.leftVerH);
+        right = (Button) findViewById(R.id.rightVerH);
+        comentar = (Button) findViewById(R.id.comentarBVerH);
 
         Bundle args = getIntent().getExtras();
 
@@ -74,16 +82,6 @@ public class VerHistoriaActivity extends ActionBarActivity {
 
         id_us = Integer.valueOf(GestorUsuarios.getGestorUsuarios().getIdUsuario(VerHistoriaActivity.this));
 
-        titulo = (TextView) findViewById(R.id.tituloVerH);
-        autor = (TextView) findViewById(R.id.autorVerH);
-        descipcion = (TextView) findViewById(R.id.descripcionVerH);
-        etiquetas = (TextView) findViewById(R.id.etiquetasVerH);
-
-        list = (ListView) findViewById(R.id.listaCoVerH);
-
-        left = (Button) findViewById(R.id.leftVerH);
-        right = (Button) findViewById(R.id.rightVerH);
-        comentar = (Button) findViewById(R.id.comentarBVerH);
 
         left.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,9 +111,23 @@ public class VerHistoriaActivity extends ActionBarActivity {
 
         comentario = (EditText) findViewById(R.id.comentarTVerH);
 
-
-
-        comentarios = new ArrayList<String>();
+        if (savedInstanceState != null) {
+            fotos = savedInstanceState.getStringArrayList("fotos");
+            comentarios = savedInstanceState.getStringArrayList("comentarios");
+            Log.i("LOAD", comentarios.toString());
+            titulo.setText(savedInstanceState.getString("titulo"));
+            autor.setText(savedInstanceState.getString("autor"));
+            descipcion.setText(savedInstanceState.getString("descipcion"));
+            etiquetas.setText(savedInstanceState.getString("etiquetas"));
+            comentario.setText(savedInstanceState.getString("comentario"));
+            loadImages();
+        }
+        else {
+            fotos = new ArrayList<String>();
+            comentarios = new ArrayList<String>();
+            fillData();
+        }
+        resources = new ArrayList<Uri>();
 
         arrayAdapter = new ArrayAdapter<String>(VerHistoriaActivity.this,android.R.layout.simple_list_item_1,comentarios){
             @Override
@@ -126,10 +138,7 @@ public class VerHistoriaActivity extends ActionBarActivity {
                 return view;
             }
         };
-
         list.setAdapter(arrayAdapter);
-
-        fillData();
 
         comentar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -282,5 +291,17 @@ public class VerHistoriaActivity extends ActionBarActivity {
                 progreso.show();
             }
         }.execute(null,null,null);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle elBundle){
+
+        elBundle.putStringArrayList("fotos", fotos);
+        elBundle.putStringArrayList("comentarios", comentarios);
+        elBundle.putString("titulo", titulo.getText().toString());
+        elBundle.putString("autor", autor.getText().toString());
+        elBundle.putString("descipcion", descipcion.getText().toString());
+        elBundle.putString("etiquetas", etiquetas.getText().toString());
+        elBundle.putString("comentario", comentario.getText().toString());
     }
 }
