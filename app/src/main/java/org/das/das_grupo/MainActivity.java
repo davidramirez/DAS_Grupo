@@ -22,6 +22,8 @@ import org.das.das_grupo.packDialogos.CerrarSesionDialog;
 import org.das.das_grupo.packGestores.GestorImagenes;
 import org.das.das_grupo.packGestores.GestorUsuarios;
 
+import java.util.ArrayList;
+
 
 public class MainActivity extends ActionBarActivity implements ListarEtiquetasFragment.OnFragmentInteractionListener, ListarHistoriasFragment.OnFragmentInteractionListener, PreferenciasFragment.OnFragmentInteractionListener, CerrarSesionDialog.ListenerCierreSesion {
 
@@ -32,6 +34,8 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mTitle;
     private CharSequence mDrawerTitle;
+    private ArrayList<Integer> fragmentsOrder;
+    private int orderCount = 0;
 
     private int opcionPulsada;
     @Override
@@ -46,6 +50,7 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
             cerrarSesion();
         }
 
+        fragmentsOrder = new ArrayList<Integer>();
         opciones = getResources ().getStringArray(R.array.nav_options);
 
         this.lalista = (ListView) findViewById(R.id.elmenu);
@@ -65,6 +70,8 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
                 int ident = 0;
                 //Aquí pondremos los argumentos
                 //para el fragmento elegido
+                fragmentsOrder.add(position);
+                orderCount++;
                 Bundle args = new Bundle();
                 switch (position) {
                     case 0://Ultima Historia
@@ -234,12 +241,17 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
     @Override
     public void onBackPressed() { // opening the previous opened fragment if back space is pressed. Could not be any fragment to open, so the app closes
         getSupportFragmentManager().executePendingTransactions();
-        if(getSupportFragmentManager().getBackStackEntryCount() == 0)
-            super.onBackPressed();
+        if(getSupportFragmentManager().getBackStackEntryCount() == 1)
+            finish();//super.onBackPressed();
         else {
             //String tag = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
             getSupportFragmentManager().popBackStackImmediate();
             //getSupportActionBar().setTitle(tag);
+            //getSupportFragmentManager().
+            fragmentsOrder.remove(--orderCount);
+            int f = fragmentsOrder.get(orderCount - 1);
+            String tituloseccion = opciones[f];
+            getSupportActionBar().setTitle(tituloseccion);
         }
     }
 
