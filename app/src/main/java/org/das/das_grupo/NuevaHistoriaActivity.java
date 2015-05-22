@@ -339,7 +339,7 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
                     cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imagen));
                     startActivityForResult(cameraIntent, CAMERA_REQUEST);
                 }
-                //TODO else error foto
+                //else error foto
 
             }
             else
