@@ -1,14 +1,16 @@
 \select@language {spanish}
-\contentsline {section}{\numberline {1}Log In}{1}{section.1}
-\contentsline {section}{\numberline {2}Registro}{2}{section.2}
-\contentsline {section}{\numberline {3}Pantalla Principal}{3}{section.3}
-\contentsline {section}{\numberline {4}Ultimas Historias}{4}{section.4}
-\contentsline {section}{\numberline {5}Mis Historias}{4}{section.5}
-\contentsline {section}{\numberline {6}Por Etiquetas}{5}{section.6}
-\contentsline {section}{\numberline {7}Mejores}{6}{section.7}
-\contentsline {section}{\numberline {8}Preferencias}{6}{section.8}
-\contentsline {section}{\numberline {9}Cerrar Sesi\IeC {\'o}n}{6}{section.9}
-\contentsline {section}{\numberline {10}Crear historia}{7}{section.10}
-\contentsline {section}{\numberline {11}Notificaciones Push}{9}{section.11}
-\contentsline {section}{\numberline {12}Ver historia}{10}{section.12}
-\contentsline {section}{\numberline {13}Comentar historias}{11}{section.13}
+\contentsline {section}{\numberline {1}Introducci\IeC {\'o}n}{1}{section.1}
+\contentsline {section}{\numberline {2}Funcionalidades}{1}{section.2}
+\contentsline {subsection}{\numberline {2.1}Log In}{1}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Registro}{2}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Pantalla Principal}{3}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}Ultimas Historias}{4}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}Mis Historias}{5}{subsection.2.5}
+\contentsline {subsection}{\numberline {2.6}Por Etiquetas}{6}{subsection.2.6}
+\contentsline {subsection}{\numberline {2.7}Mejores}{8}{subsection.2.7}
+\contentsline {subsection}{\numberline {2.8}Preferencias}{8}{subsection.2.8}
+\contentsline {subsection}{\numberline {2.9}Cerrar Sesi\IeC {\'o}n}{8}{subsection.2.9}
+\contentsline {subsection}{\numberline {2.10}Crear historia}{8}{subsection.2.10}
+\contentsline {subsection}{\numberline {2.11}Notificaciones Push}{11}{subsection.2.11}
+\contentsline {subsection}{\numberline {2.12}Ver historia}{12}{subsection.2.12}
+\contentsline {subsection}{\numberline {2.13}Comentar historias}{13}{subsection.2.13}

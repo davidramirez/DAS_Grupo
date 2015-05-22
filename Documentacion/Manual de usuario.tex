@@ -36,7 +36,18 @@
 	
 	\setcounter{page}{1}
 	
-	\section[Log In]{Log In}
+	\section{Introducción}
+	
+	El objetivo de BilboStories es que sus usuarios compartan historias entre ellos. BilboStories permite crear historias con imágenes sobre las que los usuarios pueden comentar. Además, el usuario puede suscribirse a la notificación de nuevas historias, de forma que sea informado cada vez que se crea una historia nueva en la aplicación y disponiendo de un acceso fácil a la misma.
+	
+	Al comentar una historia, el usuario también quedará suscrito a nuevos comentarios de la misma, de forma que recibirá una notificación cada vez que dicha historia se comente.
+	
+	Por si fuera poco, BilboStories \textbf{es una plataforma 100\% de \huge Bilbao} \normalsize, teniendo sus servidores alojados en pleno centro de la ciudad, aunque teniendo en cuenta a la gran variedad de usuarios potenciales también decidimos traducirla al inglés.
+	
+	
+	\section{Funcionalidades}
+	
+	\subsection[Log In]{Log In}
 	
 	Esta es la pantalla (imagen \ref{login1}) que vemos la primera vez que iniciamos la aplicación. Cuenta con dos campos donde insertar texto (nombre de usuario y contraseña) y dos botones, uno para iniciar la aplicación y otro para  registrarse en la aplicación.
 	
@@ -56,10 +67,10 @@ Para poder utilizar la aplicación debemos introducir en los campos correspondie
 		\label{login2}
 	\end{figure}
 	
-	Si el usuario y contraseña son correctos se nos llevara automáticamente a la Pantalla principal, en caso contrario aparecerá un mensaje de error y tendremos que reintroducir los datos correctos o crear un nuevo usuario pulsando el botón Registrarse.
+	Si el usuario y contraseña son correctos se nos llevara automáticamente a la Pantalla principal, en caso contrario aparecerá un mensaje de error y tendremos que volver a introducir los datos correctos o crear un nuevo usuario pulsando el botón Registrarse.
 	
 	\FloatBarrier
-	\section[Registro]{Registro}
+	\subsection[Registro]{Registro}
 	\label{regis}
 	
 	Esta pantalla es la que nos permite crear un nuevo usuario para la aplicación (imagen \ref{p14}). 
@@ -75,7 +86,7 @@ Cuenta con dos campos donde insertar texto (nombre de usuario y contraseña), un
 Tras introducir los datos y pulsar el botón registrarse retornamos a la pantalla de Log In.
 	
 	\FloatBarrier
-	\section[Pantalla Principal]{Pantalla Principal}
+	\subsection[Pantalla Principal]{Pantalla Principal}
 	\label{inPrin}
 	
 	Esta es la pantalla principal de la aplicación (imagen \ref{p1}), cuenta con un menú lateral que nos permite acceder a las distintas funcionalidades de la aplicación:
@@ -98,7 +109,7 @@ Tras introducir los datos y pulsar el botón registrarse retornamos a la pantall
 	El menú es accesible desde cualquiera de las funcionalidades de listado y la de modificación de preferencias.
 	
 	\FloatBarrier
-	\section[Ultimas Historias]{Ultimas Historias}
+	\subsection[Ultimas Historias]{Ultimas Historias}
 	
 	Esta funcionalidad es la encargada de mostrarnos las historias que han sido creadas o modificadas más recientemente.
 	
@@ -112,7 +123,7 @@ Tras introducir los datos y pulsar el botón registrarse retornamos a la pantall
 	Si pulsamos alguna de las historias de la lista se abrirá una nueva ventana que muestra en detalle la historia seleccionada.
 	
 	\FloatBarrier
-	\section[Mis Historias]{Mis Historias}
+	\subsection[Mis Historias]{Mis Historias}
 	Esta funcionalidad es la encargada de mostrarnos las historias que han sido por el usuario con el que hemos iniciado la aplicación.
 	
 	\begin{figure}[hbtp]
@@ -125,7 +136,7 @@ Tras introducir los datos y pulsar el botón registrarse retornamos a la pantall
 	Si pulsamos alguna de las historias de la lista se abrirá una nueva ventana que muestra en detalle la historia seleccionada.
 	
 	\FloatBarrier
-	\section[Por Etiquetas]{Por Etiquetas}
+	\subsection[Por Etiquetas]{Por Etiquetas}
 	
 	Esta funcionalidad es la encargada de mostrarnos la lista de etiquetas encargadas para categorizar las historias disponibles, junto al nombre se muestra el número de historias que tienen esa etiqueta asignada.
 	
@@ -146,10 +157,12 @@ Tras introducir los datos y pulsar el botón registrarse retornamos a la pantall
 	\end{figure}
 	
 	\FloatBarrier
-	\section[Mejores]{Mejores}
+	\subsection[Mejores]{Mejores}
+	
+	Esta funcionalidad está ahora mismo sin implementar. Junto con las opciones de ``me gusta'' o ``no me gusta'', aquí se mostrarían las historias por número de ``me gusta'' que los usuarios le han proporcionado.
 	
 	\FloatBarrier
-	\section[Preferencias]{Preferencias}
+	\subsection[Preferencias]{Preferencias}
 	
 	Esta funcionalidad nos permite modificar la contraseña para el usuario con el que hemos iniciado la aplicación y modificar la opción de recibir avisos sobre nuevas publicaciones.
 	
@@ -163,12 +176,12 @@ Tras introducir los datos y pulsar el botón registrarse retornamos a la pantall
 	Para ello debemos introducir la antigua contraseñan, dos veces la nueva contraseña, si se desea seleccionar el checkbox de avisos y pulsar el botón cambiar.
 	
 	\FloatBarrier
-	\section[Cerrar Sesión]{Cerrar Sesión}
+	\subsection[Cerrar Sesión]{Cerrar Sesión}
 	Esta funcionalidad nos permite hacer log out de la aplicación y nos lleva a la pantalla de log in para poder iniciar la aplicación con otro usuario. Nos pedirá confirmar la acción para llevarla a cabo. 
 	
 	
 	\FloatBarrier
-	\section{Crear historia}
+	\subsection{Crear historia}
 	Esta funcionalidad nos permite crear una historia que todos los usuarios podrán ver. La funcionalidad es accesible desde cualquiera d las funcionalidades mencionadas en la sección \ref{inPrin} a través del icono ``+'' situado en la esquina superior derecha.
 	
 	Tras acceder se nos muestra la pantalla de la imagen \ref{p17}.
@@ -207,7 +220,7 @@ Tras introducir los datos y pulsar el botón registrarse retornamos a la pantall
 		\end{figure}
 		
 	\FloatBarrier
-	\section{Notificaciones Push}
+	\subsection{Notificaciones Push}
 	
 	En caso de que hayamos marcado la opción en nuestras preferencias, cuando un usuario cree una nueva historia, recibiremos una notificación push en el dispositivo. Pulsándola, accederemos directamente a la historia (imagen \ref{p21}).
 	
@@ -227,7 +240,7 @@ Tras introducir los datos y pulsar el botón registrarse retornamos a la pantall
 	\end{itemize}
 	
 	\FloatBarrier
-	\section{Ver historia}
+	\subsection{Ver historia}
 	
 	Bien accediendo desde uno de los múltiples listados o de una notificación, la pantalla a la que se accede es la de la imagen \ref{p22}.
 	
@@ -241,7 +254,7 @@ Tras introducir los datos y pulsar el botón registrarse retornamos a la pantall
 	\end{figure}
 	
 	\FloatBarrier
-	\section{Comentar historias}
+	\subsection{Comentar historias}
 	
 	Dentro de la vista de la historia, usando el formulario de la parte inferior podemos escribir y enviar el comentario.
 	
