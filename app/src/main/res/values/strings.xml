@@ -53,4 +53,5 @@
     <string name="cambiar_pass">Cambio de contraseña:</string>
     <string name="cambiar_pref">Cambio de preferencias:</string>
     <string name="comentar">Comentar</string>
+    <string name="intrdatos">Introduce un nombre de usuario y una contraseña</string>
 </resources>
