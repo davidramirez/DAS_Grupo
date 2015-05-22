@@ -183,6 +183,22 @@ public class VerHistoriaActivity extends ActionBarActivity {
             }
         });
 
+        autor.setOnLongClickListener(new View.OnLongClickListener() {
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public boolean onLongClick(View view) {
+                int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+                String lectura = getSupportActionBar().getTitle() + ","  + autor.getText().toString();
+// API 21 edo altuago
+                if (currentapiVersion >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    myTTS.speak(String.valueOf(lectura), TextToSpeech.QUEUE_FLUSH, null, null);
+                } else {
+                    myTTS.speak(lectura, TextToSpeech.QUEUE_FLUSH, null);
+                }
+                return false;
+            }
+        });
+
         comentar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
