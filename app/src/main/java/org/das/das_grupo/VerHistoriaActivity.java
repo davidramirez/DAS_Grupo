@@ -1,10 +1,14 @@
 package org.das.das_grupo;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,10 +33,12 @@ import org.json.JSONObject;
 
 
 import android.net.Uri;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class VerHistoriaActivity extends ActionBarActivity {
@@ -54,6 +60,10 @@ public class VerHistoriaActivity extends ActionBarActivity {
     private File carpeta = new File(Environment.getExternalStorageDirectory(), ".Capturas");
 
     private ProgressDialog progreso;
+
+    private TextToSpeech myTTS;
+    private static final int MY_DATA_CHECK_CODE = 55;
+    private static final int VR_REQUEST = 999;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,19 +149,33 @@ public class VerHistoriaActivity extends ActionBarActivity {
         };
         list.setAdapter(arrayAdapter);
 
+        descipcion.setOnLongClickListener(new View.OnLongClickListener() {
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public boolean onLongClick(View view) {
+                int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+// API 21 edo altuago
+                if (currentapiVersion >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    myTTS.speak(String.valueOf(descipcion.getText()), TextToSpeech.QUEUE_FLUSH, null, null);
+                } else {
+                    myTTS.speak(String.valueOf(descipcion.getText()), TextToSpeech.QUEUE_FLUSH, null);
+                }
+                return false;
+            }
+        });
+
         comentar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 textoCom = String.valueOf(comentario.getText());
 
-                if (!textoCom.matches(""))
-                {
+                if (!textoCom.matches("")) {
                     comentarios.add(textoCom);
                     arrayAdapter.notifyDataSetChanged();
                     new AsyncTask<Void, Void, Boolean>() {
                         @Override
                         protected Boolean doInBackground(Void... voids) {
-                            return GestorConexiones.getGestorConexiones().registrarComentario(id,id_us,textoCom);
+                            return GestorConexiones.getGestorConexiones().registrarComentario(id, id_us, textoCom);
                         }
 
                         @Override
@@ -159,9 +183,14 @@ public class VerHistoriaActivity extends ActionBarActivity {
                             super.onPostExecute(aBoolean);
                             comentario.setText("");
                         }
-                    }.execute(null,null,null);}
+                    }.execute(null, null, null);
+                }
             }
         });
+
+        Intent checkTTSIntent = new Intent();
+        checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        startActivityForResult(checkTTSIntent, MY_DATA_CHECK_CODE);
 
     }
 
@@ -305,5 +334,37 @@ public class VerHistoriaActivity extends ActionBarActivity {
         elBundle.putString("descipcion", descipcion.getText().toString());
         elBundle.putString("etiquetas", etiquetas.getText().toString());
         elBundle.putString("comentario", comentario.getText().toString());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+// … OK
+/*            myTTS = new TextToSpeech(this, (TextToSpeech.OnInitListener) this);
+            // Como tercer parámetro, se puede pasar el nombre del
+            // paquete del sintetizador que queramos usar.*/
+
+            myTTS = new TextToSpeech(getApplicationContext(),
+                    new TextToSpeech.OnInitListener() {
+                        @Override
+                        public void onInit(int initStatus) {
+                            if (initStatus == TextToSpeech.SUCCESS) {
+// ...
+                                Locale espLocale = new Locale("es", "ES");
+                                if (myTTS.isLanguageAvailable(espLocale) == TextToSpeech.LANG_AVAILABLE)
+                                    myTTS.setLanguage(espLocale);
+                            } else if (initStatus == TextToSpeech.ERROR) {
+                                Toast.makeText(VerHistoriaActivity.this, "Sorry! Text To Speech failed...", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+        } else {
+// Hay que instalar un motor de TTS
+            Intent installTTSIntent = new Intent();
+            installTTSIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+            startActivity(installTTSIntent);
+        }
+
     }
 }
