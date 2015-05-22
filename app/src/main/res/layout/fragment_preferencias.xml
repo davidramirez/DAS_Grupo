@@ -22,6 +22,11 @@
             android:text="@string/cambiar_pass"
             android:id="@+id/textView" />
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:layout_gravity="center_horizontal" />
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,6 +34,11 @@
             android:ems="10"
             android:id="@+id/contraAntPref"
             android:hint="Contraseña antigua" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_gravity="center_horizontal" />
 
         <EditText
             android:layout_width="match_parent"
@@ -54,6 +64,11 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/cambiar_pref"
             android:id="@+id/textView5" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:layout_gravity="center_horizontal" />
 
         <CheckBox
             android:layout_width="wrap_content"
