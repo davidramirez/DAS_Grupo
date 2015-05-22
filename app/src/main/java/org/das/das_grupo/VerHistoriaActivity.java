@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
+import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -119,6 +120,24 @@ public class VerHistoriaActivity extends ActionBarActivity {
         });
 
         comentario = (EditText) findViewById(R.id.comentarTVerH);
+
+        comentario.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Intent listenIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                // Indicar datos de reconocimiento mediante el intent
+                listenIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
+                        getClass().getPackage().getName());
+                listenIntent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say a word!");
+                listenIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                        RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                listenIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 10);
+                // Empezar a escuchar
+                startActivityForResult(listenIntent, VR_REQUEST);
+
+                return false;
+            }
+        });
 
         if (savedInstanceState != null) {
             fotos = savedInstanceState.getStringArrayList("fotos");
@@ -366,5 +385,11 @@ public class VerHistoriaActivity extends ActionBarActivity {
             startActivity(installTTSIntent);
         }
 
+        // Chequear el resultado de reconocimiento:
+        if (requestCode == VR_REQUEST && resultCode == RESULT_OK) {
+// Guardar las palabras devueltas en un ArrayList
+            ArrayList<String> suggestedWords = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            comentario.setText(suggestedWords.get(0));
+        }
     }
 }

@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -47,6 +49,7 @@ import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 
@@ -57,7 +60,9 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
 
     private static final int CAMERA_REQUEST = 1888;
     private static final int RESULT_LOAD_IMG = 1;
-
+    private static final int VR_REQUEST = 999;
+    private static final int MY_DATA_CHECK_CODE = 55;
+    private TextToSpeech myTTS;
 
     private TextView titulo;
     private TextView descripcion;
@@ -123,6 +128,23 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
                 SelectorFuenteFotoDialog dialogo = new SelectorFuenteFotoDialog();
                 dialogo.onAttach(NuevaHistoriaActivity.this);
                 dialogo.show(getSupportFragmentManager(), null);
+            }
+        });
+
+        descripcion.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Intent listenIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                // Indicar datos de reconocimiento mediante el intent
+                listenIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
+                        getClass().getPackage().getName());
+                listenIntent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say a word!");
+                listenIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                        RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                listenIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 10);
+                // Empezar a escuchar
+                startActivityForResult(listenIntent, VR_REQUEST);
+                return true;
             }
         });
 
@@ -317,10 +339,10 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i("FOTO", ""+requestCode);
-        Log.i("FOTO", ""+resultCode);
+        Log.i("FOTO", "" + requestCode);
+        Log.i("FOTO", "" + resultCode);
         //Si la fuente era la camara
-        if(requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             Bitmap bitmap = BitmapFactory.decodeFile(imagen.getAbsolutePath());
             Bitmap newBitmap = GestorImagenes.getGestorImagenes().escalarImagen(bitmap);
 
@@ -367,9 +389,39 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
                 e.printStackTrace();
             }
 
+        } else if (requestCode == VR_REQUEST && resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS){
+            myTTS = new TextToSpeech(getApplicationContext(),
+                    new TextToSpeech.OnInitListener() {
+                        @Override
+                        public void onInit(int initStatus) {
+                            if (initStatus == TextToSpeech.SUCCESS) {
+// ...
+                                Locale espLocale = new Locale("es","ES");
+                                if (myTTS.isLanguageAvailable(espLocale) == TextToSpeech.LANG_AVAILABLE)
+                                    myTTS.setLanguage(espLocale);
+                            } else if (initStatus == TextToSpeech.ERROR) {
+                                Toast.makeText(NuevaHistoriaActivity.this, "Sorry! Text To Speech failed...", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+        } else {
+// Hay que instalar un motor de TTS
+            Intent installTTSIntent = new Intent();
+            installTTSIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+            startActivity(installTTSIntent);
         }
+
+        // Chequear el resultado de reconocimiento:
+        if (requestCode == VR_REQUEST && resultCode == RESULT_OK) {
+// Guardar las palabras devueltas en un ArrayList
+            ArrayList<String> suggestedWords = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            descripcion.setText(suggestedWords.get(0));
+        }
+
         else
-            Toast.makeText(getApplicationContext(), getString(R.string.imagenResError), Toast.LENGTH_LONG).show();
+        {
+            Toast.makeText(NuevaHistoriaActivity.this, getString(R.string.imagenResError), Toast.LENGTH_LONG).show();
+        }
     }
 
     private void showImages() {
@@ -379,11 +431,11 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
         uris = new ArrayList<Uri>();
         if(fotos.size() != 0)
         {
-        for (int i = 0; i < fotos.size(); i++){
-            ur = Uri.fromFile(new File(fotos.get(i)));
-            uris.add(ur);
-        }
-        foto.setImageURI(uris.get(0));}
+            for (int i = 0; i < fotos.size(); i++){
+                ur = Uri.fromFile(new File(fotos.get(i)));
+                uris.add(ur);
+            }
+            foto.setImageURI(uris.get(0));}
     }
 
 
