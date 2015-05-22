@@ -141,6 +141,8 @@ public class MainActivity extends ActionBarActivity implements ListarEtiquetasFr
 
         ellayout.setDrawerListener(mDrawerToggle);
 
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_drawer);
+
         //Comprobar si había un estado anterior
         if(savedInstanceState != null)
             opcionPulsada = savedInstanceState.getInt("opcionpulsada");
