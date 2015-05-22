@@ -88,6 +88,24 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
         setContentView(R.layout.activity_nueva_historia);
 
         titulo = (TextView) findViewById(R.id.titulo);
+
+        titulo.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Intent listenIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                // Indicar datos de reconocimiento mediante el intent
+                listenIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
+                        getClass().getPackage().getName());
+                listenIntent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say a word!");
+                listenIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                        RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                listenIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 10);
+                // Empezar a escuchar
+                startActivityForResult(listenIntent, VR_REQUEST+1);
+                return false;
+            }
+        });
+
         descripcion = (TextView) findViewById(R.id.descripcion);
         etiquetas = (TextView) findViewById(R.id.etiquetas);
 
@@ -144,7 +162,7 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
                 listenIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 10);
                 // Empezar a escuchar
                 startActivityForResult(listenIntent, VR_REQUEST);
-                return true;
+                return false;
             }
         });
 
@@ -389,26 +407,9 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
                 e.printStackTrace();
             }
 
-        } else if (requestCode == VR_REQUEST && resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS){
-            myTTS = new TextToSpeech(getApplicationContext(),
-                    new TextToSpeech.OnInitListener() {
-                        @Override
-                        public void onInit(int initStatus) {
-                            if (initStatus == TextToSpeech.SUCCESS) {
-// ...
-                                Locale espLocale = new Locale("es","ES");
-                                if (myTTS.isLanguageAvailable(espLocale) == TextToSpeech.LANG_AVAILABLE)
-                                    myTTS.setLanguage(espLocale);
-                            } else if (initStatus == TextToSpeech.ERROR) {
-                                Toast.makeText(NuevaHistoriaActivity.this, "Sorry! Text To Speech failed...", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-        } else {
-// Hay que instalar un motor de TTS
-            Intent installTTSIntent = new Intent();
-            installTTSIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-            startActivity(installTTSIntent);
+        } else if(requestCode == RESULT_LOAD_IMG)
+        {
+            Toast.makeText(NuevaHistoriaActivity.this, getString(R.string.imagenResError), Toast.LENGTH_LONG).show();
         }
 
         // Chequear el resultado de reconocimiento:
@@ -418,9 +419,10 @@ public class NuevaHistoriaActivity extends ActionBarActivity implements Selector
             descripcion.setText(suggestedWords.get(0));
         }
 
-        else
-        {
-            Toast.makeText(NuevaHistoriaActivity.this, getString(R.string.imagenResError), Toast.LENGTH_LONG).show();
+        if (requestCode == VR_REQUEST+1 && resultCode == RESULT_OK) {
+// Guardar las palabras devueltas en un ArrayList
+            ArrayList<String> suggestedWords = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            titulo.setText(suggestedWords.get(0));
         }
     }
 
