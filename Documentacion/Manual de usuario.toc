@@ -2,15 +2,15 @@
 \contentsline {section}{\numberline {1}Introducci\IeC {\'o}n}{1}{section.1}
 \contentsline {section}{\numberline {2}Funcionalidades}{1}{section.2}
 \contentsline {subsection}{\numberline {2.1}Log In}{1}{subsection.2.1}
-\contentsline {subsection}{\numberline {2.2}Registro}{2}{subsection.2.2}
-\contentsline {subsection}{\numberline {2.3}Pantalla Principal}{3}{subsection.2.3}
-\contentsline {subsection}{\numberline {2.4}Ultimas Historias}{4}{subsection.2.4}
-\contentsline {subsection}{\numberline {2.5}Mis Historias}{5}{subsection.2.5}
-\contentsline {subsection}{\numberline {2.6}Por Etiquetas}{6}{subsection.2.6}
+\contentsline {subsection}{\numberline {2.2}Registro}{3}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Pantalla Principal}{4}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}Ultimas Historias}{5}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}Mis Historias}{6}{subsection.2.5}
+\contentsline {subsection}{\numberline {2.6}Por Etiquetas}{7}{subsection.2.6}
 \contentsline {subsection}{\numberline {2.7}Mejores}{8}{subsection.2.7}
-\contentsline {subsection}{\numberline {2.8}Preferencias}{8}{subsection.2.8}
-\contentsline {subsection}{\numberline {2.9}Cerrar Sesi\IeC {\'o}n}{8}{subsection.2.9}
-\contentsline {subsection}{\numberline {2.10}Crear historia}{8}{subsection.2.10}
-\contentsline {subsection}{\numberline {2.11}Notificaciones Push}{11}{subsection.2.11}
-\contentsline {subsection}{\numberline {2.12}Ver historia}{12}{subsection.2.12}
-\contentsline {subsection}{\numberline {2.13}Comentar historias}{13}{subsection.2.13}
+\contentsline {subsection}{\numberline {2.8}Preferencias}{9}{subsection.2.8}
+\contentsline {subsection}{\numberline {2.9}Cerrar Sesi\IeC {\'o}n}{9}{subsection.2.9}
+\contentsline {subsection}{\numberline {2.10}Crear historia}{9}{subsection.2.10}
+\contentsline {subsection}{\numberline {2.11}Notificaciones Push}{12}{subsection.2.11}
+\contentsline {subsection}{\numberline {2.12}Ver historia}{13}{subsection.2.12}
+\contentsline {subsection}{\numberline {2.13}Comentar historias}{14}{subsection.2.13}
