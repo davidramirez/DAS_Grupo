@@ -4,10 +4,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     tools:context="org.das.das_grupo.VerHistoriaActivity"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     android:background="#ffffffff">
 
     <ScrollView
@@ -20,7 +16,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/scrollView"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -82,7 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Descripción:"
+                android:text="@string/descripcion2"
                 android:id="@+id/textView"
                 android:textColor="#ff454545" />
 
@@ -97,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Comentarios:"
+                android:text="@string/comentarios"
                 android:id="@+id/textView4"
                 android:textColor="#FF454545" />
 
@@ -114,7 +114,11 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#ffffffff">
+        android:background="#ffffffff"
+        android:paddingTop="6dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:paddingBottom="6dp" >
 
         <Button
             android:layout_alignParentRight="true"
@@ -126,7 +130,7 @@
 
         <EditText
             android:id="@+id/comentarTVerH"
-            android:hint="Comentario"
+            android:hint="@string/comentario"
             android:layout_width="fill_parent"
             android:layout_toLeftOf="@id/comentarBVerH"
             android:layout_height="wrap_content"/>

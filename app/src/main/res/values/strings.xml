@@ -54,4 +54,7 @@
     <string name="cambiar_pref">Cambio de preferencias:</string>
     <string name="comentar">Comentar</string>
     <string name="intrdatos">Introduce un nombre de usuario y una contraseña</string>
+    <string name="comentario">Comentario</string>
+    <string name="comentarios">Comentarios:</string>
+    <string name="descripcion2">Descripción:</string>
 </resources>
